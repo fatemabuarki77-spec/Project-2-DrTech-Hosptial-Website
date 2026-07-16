@@ -13,12 +13,18 @@ const bookingschema = new mongoose.Schema(
       ref: "Service",
       required: true,
     },
+    provider: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     date: {
       type: Date,
     },
   },
   { timestamps: true },
 );
+
 //model
 const Booking = mongoose.model(`Booking`, bookingschema);
 
