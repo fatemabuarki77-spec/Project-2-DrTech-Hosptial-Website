@@ -6,9 +6,15 @@ DrTech Hospital Website
 
 ## Screenshots
 
-![alt text](<Screenshot 2026-07-15 at 3.52.55 PM.png>)
+![alt text](<Screenshot 2026-07-16 at 12.22.12 PM.png>)
 
 ## Technologies Used
+
+- HTML
+- CSS
+- JavaScript
+- Node.js
+- MongoDB
 
 ## Getting Started
 
