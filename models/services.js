@@ -6,21 +6,16 @@ const serviceschema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-      unique: true,
       trim: true,
     },
     description: {
       type: String,
       required: true,
-      trim: true,
     },
     provider: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
-    },
-    date: {
-      type: Date,
     },
   },
   { timestamps: true },

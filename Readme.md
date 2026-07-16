@@ -6,7 +6,7 @@ DrTech Hospital Website
 
 ## Screenshots
 
-![alt text](<Screenshot 2026-07-16 at 12.22.12 PM.png>)
+![alt text](<Screenshot 2026-07-16 at 2.44.45 PM.png>)
 
 ## Technologies Used
 
@@ -31,7 +31,7 @@ Patients:
 
 Doctors:
 
-- As a Doctor, I want to see a consolidated list of my scheduled patients for the day.
+- As a Doctor, I want to see a consolidated list of my scheduled patients for the day and Edit it.
 - As a Doctor, I want to click on a patient from my list to view their medical history and any requested services, so that I am fully prepared before they walk into the room.
 - As a Doctor,I must be able to change the status of the request (e.g. "Pending," "Assigned," "Completed").
 - As a Doctor, I want to write a consultation notes during the visit.
