@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="/style.css">
   </head>
   <body>
-  <%- include('../partials/navbar') %>
+    <%- include('../partials/navbar') %>
+
     <h1 id="all">All Patients</h1>
 
 <% for(let onePatient of Patients){ %>
@@ -15,7 +16,7 @@
 <div class="patient-card">
     <p class="patient-name"><%= onePatient.name %></p>
 
-    <a class="patient-link" href="/patients/<%= onePatient._id %>">
+    <a class="patient-link" href="patient/<%= onePatient._id %>">
         View Patient Details
     </a>
 </div>

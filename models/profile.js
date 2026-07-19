@@ -6,7 +6,6 @@ const profileschema = new mongoose.Schema(
     name: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
     },
 
     specialty: {
@@ -15,7 +14,8 @@ const profileschema = new mongoose.Schema(
       trim: true,
     },
     position: {
-      enum: [junior, Senior, cheif, Consultant],
+      type: String,
+      enum: [`junior`, `Senior`, `cheif`, `Consultant`],
       required: true,
     },
     experience: {

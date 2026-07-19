@@ -1,0 +1,27 @@
+<nav>
+  <a href="/">Homepage</a>
+
+  <% if (user) { %>
+    <a href="/auth/sign-out">Logout</a>
+
+    <% if (user.role === "doctor") { %>
+      <!-- Doctor-only links -->
+      <a href="/patient/new">Create Patient</a>
+  
+      <a href="/patient">All Patients</a>
+
+      <a href="">Appointments List </a>
+            
+      <a href="/service/new">create a service</a>
+    <% } else if (user.role === "patient") { %>
+      <!-- Patient-only links -->
+      <a href="/appt/new">Patient Dashboard</a>
+    <% } %>
+
+  <% } else { %>
+    <!-- Guest-only links -->
+    <a href="/auth/sign-up">Sign up</a>
+
+    <a href="/auth/sign-in">Login</a>
+  <% } %>
+</nav>

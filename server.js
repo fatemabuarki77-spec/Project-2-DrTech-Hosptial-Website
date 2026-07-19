@@ -7,6 +7,7 @@ const session = require("express-session");
 const methodOverride = require("method-override");
 const { MongoStore } = require("connect-mongo");
 const connectToDB = require("./db.js");
+const multer = require("multer");
 
 // middleware imports
 const isSignedIn = require("./middleware/is-signed-in.js");
@@ -16,6 +17,9 @@ const passUserToView = require("./middleware/pass-user-to-view.js");
 const authController = require("./controllers/auth.controllers.js");
 const indexController = require("./controllers/index.controllers.js");
 const patientController = require(`./controllers/patient.controllers.js`);
+const apptController = require(`./controllers/appt.controllers.js`);
+const doctorController = require(`./controllers/doctor.controllers.js`);
+const serviceController = require(`./controllers/service.controllers.js`);
 
 // Middleware
 app.use(express.static("public")); // my app will serve all static files from public folder
@@ -39,11 +43,16 @@ app.use(
     },
   }),
 );
+
 app.use(passUserToView);
 
 // Routes go here
 app.use("/auth", authController);
 app.use("/", indexController);
+app.use("/patient", patientController);
+app.use("/doctor", doctorController);
+app.use("/appt", apptController);
+app.use("/service", serviceController);
 
 // connect to database and listen on Port 3000
 async function startServer() {

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Add New Medical Service</title>
+  </head>
+  <body>
+    <%- include('../partials/navbar') %>
+
+    <h1>Add a New Hospital Service</h1>
+    <p>Create a service that patients will be able to book with you.</p>
+
+    <form action="/doctor/services" method="POST">
+      <div>
+        <label for="name">Service Name:</label>
+
+        <select id="name" name="name" required>
+          <option value="">- Select a Service -</option>
+          <option value="General Consultation">General Consultation</option>
+          <option value="Checkup">Checkup</option>
+          <option value="Immunization">Immunization</option>
+        </select>
+      </div>
+
+      <br />
+
+      <button type="submit">Publish Service</button>
+    </form>
+  </body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Find Doctors - Dr.Tech</title>
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+
+    <h1>Search Doctors by Specialty</h1>
+    <form action="/doctors/search" method="GET">
+        <input type="text" name="specialty" placeholder="e.g., Cardiology, Pediatrics" required>
+        <button type="submit">Search</button>
+    </form>
+
+    <h2>Available Practitioners</h2>
+    <% if (doctors.length === 0) { %>
+        <p>No specialists found matching that query.</p>
+    <% } else { %>
+        <table border="1" cellpadding="10">
+            <thead>
+                <tr>
+                    <th>Doctor Name</th>
+                    <th>Specialty</th>
+                    <th>Contact Email</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% doctors.forEach(doc => { %>
+                    <tr>
+                        <td>Dr. <%= doc.username %></td>
+                        <td><%= doc.specialty %></td>
+                        <td><%= doc.email %></td>
+                        <td>
+                            <p>Copy ID to Book: <code><%= doc._id %></code></p>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } %>
+</body>
+</html>

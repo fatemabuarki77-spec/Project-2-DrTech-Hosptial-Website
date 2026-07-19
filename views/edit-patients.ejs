@@ -8,10 +8,10 @@
 </head>
 
 <body>
-  <%- include('../partials/navbar') %>
+    <%- include('../partials/navbar') %>
 <h1>Edit Patient</h1>
 
-<form action="/patients/<%= Patient._id %>?_method=PUT" method="POST">
+<form action="/patient/<%= Patient._id %>?_method=PUT" method="POST">
 
     <label for="name">Name:</label>
     <input required 

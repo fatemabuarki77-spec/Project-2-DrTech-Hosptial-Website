@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <%- include('../partials/navbar') %>
+
+    <h1>My Medical Dashboard</h1>
+
+    <h2>Book an Appointment</h2>
+
+    <form action="/appt/new" method="POST">
+      <label for="doctorId">Select Doctor ID/Select Field:</label>
+      <input
+        type="text"
+        name="doctorId"
+        required
+        placeholder="Paste Doctor ID here"
+      />
+
+      <label for="date">Appointment Date & Time:</label>
+      <input type="datetime-local" name="date" required />
+
+      <label for="type">Appointment Type:</label>
+      <select name="type" required>
+        <option value="in-person">In-Person Visit</option>
+        <option value="telehealth">Telehealth (Video Call)</option>
+      </select>
+
+      <button type="submit">Confirm Booking</button>
+    </form>
+  </body>
+</html>

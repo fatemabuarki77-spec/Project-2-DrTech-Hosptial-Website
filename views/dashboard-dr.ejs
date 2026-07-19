@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Patient Dashboard - Dr.Tech Hospital</title>
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+
+    <h1>My Medical Dashboard</h1>
+
+    <!-- Booking Form Section -->
+    <h2>Book an Appointment</h2>
+    <form action="/appointments/book" method="POST">
+        <label for="doctorId">Select Doctor ID/Select Field:</label>
+        <input type="text" name="doctorId" required placeholder="Paste Doctor ID here">
+
+        <label for="date">Appointment Date & Time:</label>
+        <input type="datetime-local" name="date" required>
+
+        <label for="type">Appointment Type:</label>
+        <select name="type" required>
+            <option value="in-person">In-Person Visit</option>
+            <option value="telehealth">Telehealth (Video Call)</option>
+        </select>
+
+        <button type="submit">Confirm Booking</button>
+    </form>
+
+    <hr>
+
+    <!-- Appointment Lists -->
+    <h2>Upcoming Visits</h2>
+    <% if (upcoming.length === 0) { %>
+        <p>No upcoming visits scheduled.</p>
+    <% } else { %>
+        <ul>
+            <% upcoming.forEach(app => { %>
+                <li>
+                    <strong>Doctor:</strong> Dr. <%= app.doctor.username %> (<%= app.doctor.specialty %>)<br>
+                    <strong>When:</strong> <%= new Date(app.date).toLocaleString() %><br>
+                    <strong>Type:</strong> <%= app.type %><br>
+                    <strong>Status:</strong> <%= app.status %><br>
+                    <form action="/appointments/cancel/<%= app._id %>?_method=PUT" method="POST" style="display:inline;">
+                        <button type="submit" onclick="return confirm('Are you sure?')">Cancel Appointment</button>
+                    </form>
+                </li>
+                <br>
+            <% }) %>
+        </ul>
+    <% } %>
+
+    <h2>Past & Completed History</h2>
+    <% if (past.length === 0) { %>
+        <p>No past appointments found.</p>
+    <% } else { %>
+        <ul>
+            <% past.forEach(app => { %>
+                <li>
+                    <strong>Doctor:</strong> Dr. <%= app.doctor.username %><br>
+                    <strong>Date:</strong> <%= new Date(app.date).toLocaleDateString() %><br>
+                    <strong>Status:</strong> <%= app.status %><br>
+                    <% if(app.consultationNotes) { %>
+                        <p><em>Notes from Doctor:</em> <%= app.consultationNotes %></p>
+                    <% } %>
+                </li>
+            <% }) %>
+        </ul>
+    <% } %>
+</body>
+</html>

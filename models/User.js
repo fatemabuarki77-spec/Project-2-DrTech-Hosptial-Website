@@ -12,9 +12,19 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    Role: {
-      enum: [Doctor, Patient],
+    role: {
+      // Changed from Role to role
+      type: String,
       required: true,
+      default: "patient",
+      enum: ["patient", "doctor"],
+    },
+    // Doctor-specific fields
+    specialty: {
+      type: String,
+      required: function () {
+        return (this.Role = "doctor");
+      },
     },
   },
   { timestamps: true },

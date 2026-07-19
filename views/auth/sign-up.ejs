@@ -6,15 +6,71 @@
     <title>Sign Up</title>
   </head>
   <body>
-    <%- include('../partials/navbar') %>
-    <h1>Create a new account!</h1>
+    <h1>Create your Hospital Account</h1>
+    <br /><br />
     <form action="/auth/sign-up" method="post">
-      <label for="username">Username:</label>
-      <input type="text" name="username" id="username" />
-      <label for="password">Password:</label>
-      <input type="password" name="password" id="password" />
-      <label for="confirmPassword">Confirm Password:</label>
-      <input type="password" name="confirmPassword" id="confirmPassword" />
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" required />
+      </div>
+      <br /><br />
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" required />
+      </div>
+      <br /><br />
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password:</label>
+        <input
+          type="password"
+          name="confirmPassword"
+          id="confirmPassword"
+          required
+        />
+      </div>
+      <br /><br />
+
+      <div class="form-group">
+        <label for="role">I am signing up as a:</label>
+        <select name="role" id="role" required>
+          <option value="" disabled selected>Select your role...</option>
+          <option value="patient">Patient</option>
+          <option value="doctor">Doctor</option>
+        </select>
+      </div>
+      <br /><br />
+
+      <div id="patientFields" class="hidden">
+        <h3>Patient Information</h3>
+        <div class="form-group">
+          <label for="fullName">Full Name:</label>
+          <input type="text" name="fullName" id="fullName" />
+        </div>
+      </div>
+      <br /><br />
+
+      <div id="doctorFields" class="hidden">
+        <h3>Medical Professional Information</h3>
+        <div class="form-group">
+          <label for="licenseNumber">Medical License Number:</label>
+          <input type="text" name="licenseNumber" id="licenseNumber" />
+        </div>
+        <br /><br />
+
+        <div class="form-group">
+          <label for="specialty">Specialty:</label>
+          <select name="specialty" id="specialty">
+            <option value="-">-</option>
+            <option value="general">General Medicine</option>
+            <option value="cardiology">Cardiology</option>
+            <option value="pediatrics">Pediatrics</option>
+            <option value="neurology">Neurology</option>
+          </select>
+        </div>
+      </div>
+
+      <br /><br />
       <button type="submit">Sign up</button>
     </form>
   </body>

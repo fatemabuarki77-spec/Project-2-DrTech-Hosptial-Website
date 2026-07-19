@@ -1,10 +1,12 @@
-const Patient = require(`./models/patients`);
+const express = require("express");
+const router = express.Router();
+const Patient = require(`../models/patientslist`);
 
-app.get("/patients/new", (req, res) => {
+router.get("/new", (req, res) => {
   res.render("patients-create.ejs");
 });
 
-app.post(`/patients`, async (req, res) => {
+router.post(`/new`, async (req, res) => {
   try {
     req.body.IsReadyToDischarge = Boolean(req.body.IsReadyToDischarge);
     console.log(req.body);
@@ -15,6 +17,7 @@ app.post(`/patients`, async (req, res) => {
     console.log(`cannot add patient`, err);
   }
 });
+
 // post the fields you need from the body
 // app.post("/patients", async (req, res) => {
 //   try {
@@ -34,9 +37,8 @@ app.post(`/patients`, async (req, res) => {
 //     res.status(500).send("Error creating patient");
 //   }
 // });
-//Read Routes
 
-app.get("/patients", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const allPatients = await Patient.find();
     res.render("all-patients.ejs", { Patients: allPatients });
@@ -46,7 +48,7 @@ app.get("/patients", async (req, res) => {
 });
 
 //
-app.get("/patients/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     console.log(req.params.id);
 
@@ -64,16 +66,16 @@ app.get("/patients/:id", async (req, res) => {
   }
 });
 
-app.delete("/patients/:id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     await Patient.findByIdAndDelete(req.params.id);
-    res.redirect("/patients");
+    res.redirect("/");
   } catch (err) {
     console.log(`cannot Delete patient`, err);
   }
 });
 
-app.get("/patients/:id/edit", async (req, res) => {
+router.get("/:id/edit", async (req, res) => {
   try {
     const foundPatient = await Patient.findById(req.params.id);
     res.render("edit-patients.ejs", { Patient: foundPatient });
@@ -82,14 +84,14 @@ app.get("/patients/:id/edit", async (req, res) => {
   }
 });
 
-app.put("/patients/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {
   try {
     req.body.IsReadyToDischarge = Boolean(req.body.IsReadyToDischarge);
     const updatedPatient = await Patient.findByIdAndUpdate(
       req.params.id,
       req.body,
     );
-    res.redirect("/patients");
+    res.redirect(`${req.params.id}`);
   } catch (err) {
     console.log(`cannot Update patient`, err);
   }
@@ -113,6 +115,8 @@ app.put("/patients/:id", async (req, res) => {
 //     res.status(500).send("Error creating patient");
 //   }
 // });
-app.get("/", (req, res) => {
+router.get("/", (req, res) => {
   res.render("index");
 });
+
+module.exports = router;
