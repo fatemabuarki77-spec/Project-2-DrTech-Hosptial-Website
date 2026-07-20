@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Profile</title>
+  </head>
+  <body>
+    <div class="form-card">
+      <div class="form-header">
+        <h2>Create New Profile</h2>
+        <p>Associate a user account with a professional medical profile.</p>
+      </div>
+
+      <form action="/profile/new" method="POST">
+        <div class="form-group">
+          <label for="name"><%=name%></label>
+        </div>
+
+        <div class="form-group">
+          <label for="specialty">Specialty:</label>
+          <select name="specialty" id="specialty">
+            <option value="-">-</option>
+            <option value="general">General Medicine</option>
+            <option value="cardiology">Cardiology</option>
+            <option value="pediatrics">Pediatrics</option>
+            <option value="neurology">Neurology</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="position">Position</label>
+          <select id="position" name="position" class="form-control" required>
+            <option value="" disabled selected>-- Select Position --</option>
+            <option value="junior">junior</option>
+            <option value="Senior">Senior</option>
+            <option value="cheif">cheif</option>
+            <option value="Consultant">Consultant</option>
+          </select>
+        </div>
+
+        <!-- Experience -->
+        <div class="form-group">
+          <label for="experience">Experience</label>
+          <input
+            type="text"
+            id="experience"
+            name="experience"
+            class="form-control"
+            placeholder="e.g., 5 years, 8+ Years"
+            required
+          />
+        </div>
+
+        <!-- Availability  -->
+        <div class="form-group">
+          <label>Initial Availability Status</label>
+          <div class="radio-group">
+            <label class="radio-label">
+              <input type="radio" name="Availability" value="true" checked />
+              Available
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="Availability" value="false" />
+              Unavailable
+            </label>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="btn-group">
+          <a href="/profiles" class="btn btn-secondary">Cancel</a>
+          <button type="submit" class="btn btn-primary">Create Profile</button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

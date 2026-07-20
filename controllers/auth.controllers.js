@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/user.js");
+const Profile = require("../models/profile.js");
 const bcrypt = require("bcrypt");
 
 // Sign up routes
@@ -56,8 +57,18 @@ router.post("/sign-in", async (req, res) => {
     _id: userInDatabase._id,
     role: userInDatabase.role,
   };
-
-  res.redirect("/");
+  if (req.session.user.role == "doctor") {
+    const userProfile = await Profile.findOne({ name: req.session.user._id });
+    const usersName = req.session.user.username;
+    const userID = req.session.user._id;
+    if (userProfile == null) {
+      res.render("create-profile.ejs", { name: usersName, id: userID });
+    } else {
+      res.redirect("/");
+    }
+  } else {
+    res.redirect("/");
+  }
 });
 
 router.get("/sign-out", (req, res) => {

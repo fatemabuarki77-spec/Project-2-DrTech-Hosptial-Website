@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><%= profile.name ? profile.name.username || profile.name.name : 'User' %>'s Profile</title>
+    <link rel="icon" href="image link" type="image/png">
+</head>
+<body>
+    
+    <%- include('../partials/navbar') %>
+
+  <div class="card">
+    <div class="card-header">
+
+      <h2>
+        <% if (profile.name && typeof profile.name === 'object') { %>
+          <%= profile.name.username || 'Unnamed User' %>
+        <% } else { %>
+          User ID: <%= profile.name || 'N/A' %>
+        <% } %>
+      </h2>
+      <span class="badge-position"><%= profile.position %></span>
+    </div>
+
+    <div class="card-body">
+      <div class="info-group">
+        <span class="label">Specialty</span>
+        <span class="value"><%= profile.specialty %></span>
+      </div>
+
+      <div class="info-group">
+        <span class="label">Experience</span>
+        <span class="value"><%= profile.experience %></span>
+      </div>
+
+      <div class="info-group">
+        <span class="label">Availability Status</span>
+        <% if (profile.Availability) { %>
+          <span class="status-badge status-available">
+            <span class="status-dot"></span> Available
+          </span>
+        <% } else { %>
+          <span class="status-badge status-unavailable">
+            <span class="status-dot"></span> Unavailable
+          </span>
+        <% } %>
+      </div>
+    </div>
+
+    <% if (profile.createdAt) { %>
+      <div class="card-footer">
+        Profile created: <%= new Date(profile.createdAt).toLocaleDateString() %>
+      </div>
+    <% } %>
+  </div>
+
+</body>
+</html>
+  </body>
+</body>
+</html>

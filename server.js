@@ -20,6 +20,7 @@ const patientController = require(`./controllers/patient.controllers.js`);
 const apptController = require(`./controllers/appt.controllers.js`);
 const doctorController = require(`./controllers/doctor.controllers.js`);
 const serviceController = require(`./controllers/service.controllers.js`);
+const profileController = require(`./controllers/profile.controllers.js`);
 
 // Middleware
 app.use(express.static("public")); // my app will serve all static files from public folder
@@ -53,6 +54,7 @@ app.use("/patient", patientController);
 app.use("/doctor", doctorController);
 app.use("/appt", apptController);
 app.use("/service", serviceController);
+app.use("/profile", profileController);
 
 // connect to database and listen on Port 3000
 async function startServer() {

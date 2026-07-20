@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title> Profile Edit 🥼</title>
+  </head>
+  <body>
+
+  <!-- Submit profile form to POST endpoint. We use method override PUT support -->
+  <form action="/profile/<%= myProfile._id %>?_method=PUT" method="POST" class="card">
+    
+    <div class="card-header">
+      <!-- Read-only header information -->
+      <h2>
+        <% if (myProfile.name && typeof myProfile.name === 'object') { %>
+          <%= myProfile.name.username || 'Unnamed User' %>
+        <% } else { %>
+          User ID: <%= myProfile.name || 'N/A' %>
+        <% } %>
+      </h2>
+
+      <!-- Position dropdown styled natively inside the blue header badge -->
+      <div class="badge-select-wrapper">
+        <select name="position" class="badge-position-select" required>
+          <% const positionOptions = ['junior', 'Senior', 'cheif', 'Consultant']; %>
+          <% positionOptions.forEach(pos => { %>
+            <option value="<%= pos %>" <%= myProfile.position === pos ? 'selected' : '' %>>
+              <%= pos %>
+            </option>
+          <% }) %>
+        </select>
+      </div>
+    </div>
+
+    <div class="card-body">
+      
+      <div class="info-group">
+        <label for="specialty" class="label">Specialty</label>
+        <div class="value">
+          <input 
+            type="text" 
+            id="specialty" 
+            name="specialty" 
+            class="edit-input" 
+            value="<%= myProfile.specialty %>" 
+            placeholder="e.g. Cardiology" 
+            required 
+          />
+        </div>
+      </div>
+
+      <div class="info-group">
+        <label for="experience" class="label">Experience</label>
+        <div class="value">
+          <input 
+            type="text" 
+            id="experience" 
+            name="experience" 
+            class="edit-input" 
+            value="<%= myProfile.experience %>" 
+            placeholder="e.g. 5 Years" 
+            required 
+          />
+        </div>
+      </div>
+
+      <div class="info-group">
+        <span class="label">Availability Status</span>
+        <div class="status-radio-group">
+          
+          <label class="status-radio-label">
+            <input 
+              type="radio" 
+              name="Availability" 
+              value="true" 
+              <%= myProfile.Availability === true ? 'checked' : '' %> 
+            />
+            <span class="status-pill status-pill-available">
+              <span class="status-dot"></span> Available
+            </span>
+          </label>
+
+          <label class="status-radio-label">
+            <input 
+              type="radio" 
+              name="Availability" 
+              value="false" 
+              <%= myProfile.Availability === false ? 'checked' : '' %> 
+            />
+            <span class="status-pill status-pill-unavailable">
+              <span class="status-dot"></span> Unavailable
+            </span>
+          </label>
+
+        </div>
+      </div>
+
+     
+      <div class="form-actions">
+        <a href="/profile/<%= myProfile._id %>" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+      </div>
+
+    </div>
+
+ 
+
+  </form>
+
+</body>
+</html>

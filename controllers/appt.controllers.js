@@ -21,7 +21,7 @@ router.get("/new", async (req, res) => {
     // Fetch doctors and services to populate booking dropdowns in view
     const availableServices = await Service.find({}).populate("provider");
 
-    res.render("schedule.ejs", {
+    res.render("dashboard-pt.ejs", {
       patientHistory,
       availableServices,
     });
@@ -45,7 +45,7 @@ router.post("/", async (req, res) => {
       status: "Pending",
     });
 
-    res.redirect("/appt/new");
+    res.redirect("/new");
   } catch (error) {
     console.error("Booking error:", error);
     res.status(500).send("Error creating appointment.");

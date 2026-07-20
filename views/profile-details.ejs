@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+
+<div class="card">
+    <div class="card-header">
+
+   
+      <h2>
+        <% if (myProfile.name && typeof myProfile.name === 'object') { %>
+          <%= myProfile.name.username || 'Unnamed User' %>
+        <% } else { %>
+          User ID: <%= myProfile.name.username || 'N/A' %>
+        <% } %>
+      </h2>
+      <span class="badge-position"><%= myProfile.position %></span>
+    </div>
+
+    <div class="card-body">
+      <div class="info-group">
+        <span class="label">Specialty</span>
+        <span class="value"><%= myProfile.specialty %></span>
+      </div>
+
+      <div class="info-group">
+        <span class="label">Experience</span>
+        <span class="value"><%= myProfile.experience %></span>
+      </div>
+
+      <div class="info-group">
+        <span class="label">Availability Status</span>
+        <% if (myProfile.Availability) { %>
+          <span class="status-badge status-available">
+            <span class="status-dot"></span> Available
+          </span>
+        <% } else { %>
+          <span class="status-badge status-unavailable">
+            <span class="status-dot"></span> Unavailable
+          </span>
+        <% } %>
+      </div>
+      <br>
+    <form action="/profile/<%= myProfile._id%>/edit" method="GET">
+        <button type="submit" id="edit-btn">Edit</button>
+    </form>
+  </body>
+</html>
