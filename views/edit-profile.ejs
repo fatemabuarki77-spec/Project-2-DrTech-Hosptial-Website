@@ -7,11 +7,9 @@
   </head>
   <body>
 
-  <!-- Submit profile form to POST endpoint. We use method override PUT support -->
   <form action="/profile/<%= myProfile._id %>?_method=PUT" method="POST" class="card">
     
     <div class="card-header">
-      <!-- Read-only header information -->
       <h2>
         <% if (myProfile.name && typeof myProfile.name === 'object') { %>
           <%= myProfile.name.username || 'Unnamed User' %>
@@ -20,7 +18,6 @@
         <% } %>
       </h2>
 
-      <!-- Position dropdown styled natively inside the blue header badge -->
       <div class="badge-select-wrapper">
         <select name="position" class="badge-position-select" required>
           <% const positionOptions = ['junior', 'Senior', 'cheif', 'Consultant']; %>
@@ -32,7 +29,7 @@
         </select>
       </div>
     </div>
-
+  <%- include('../partials/navbar') %>
     <div class="card-body">
       
       <div class="info-group">
@@ -43,6 +40,7 @@
             id="specialty" 
             name="specialty" 
             class="edit-input" 
+            
             value="<%= myProfile.specialty %>" 
             placeholder="e.g. Cardiology" 
             required 
@@ -99,7 +97,7 @@
      
       <div class="form-actions">
         <a href="/profile/<%= myProfile._id %>" class="btn btn-secondary">Cancel</a>
-        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <button type="submit" class="btn">Save Changes</button>
       </div>
 
     </div>

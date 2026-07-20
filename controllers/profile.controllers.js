@@ -56,7 +56,7 @@ router.put("/:id", async (req, res) => {
       { new: true, runValidators: true },
     );
 
-    res.redirect(`/profile/${updatedProfile._id}`);
+    res.redirect(`/profile/${updatedProfile.name}`);
   } catch (err) {
     res.status(400).send(`Error updating profile: ${err.message}`);
   }

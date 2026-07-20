@@ -6,12 +6,11 @@
     <title>Document</title>
   </head>
   <body>
-
+  <%- include('../partials/navbar') %>
 <div class="card">
     <div class="card-header">
 
-   
-      <h2>
+<h2>
         <% if (myProfile.name && typeof myProfile.name === 'object') { %>
           <%= myProfile.name.username || 'Unnamed User' %>
         <% } else { %>
@@ -45,7 +44,7 @@
         <% } %>
       </div>
       <br>
-    <form action="/profile/<%= myProfile._id%>/edit" method="GET">
+    <form action="/profile/<%= myProfile._id %>/edit" method="GET">
         <button type="submit" id="edit-btn">Edit</button>
     </form>
   </body>

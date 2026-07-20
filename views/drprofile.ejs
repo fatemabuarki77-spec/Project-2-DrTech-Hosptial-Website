@@ -12,12 +12,11 @@
 
   <div class="card">
     <div class="card-header">
-
-      <h2>
-        <% if (profile.name && typeof profile.name === 'object') { %>
-          <%= profile.name.username || 'Unnamed User' %>
+  <h2>
+        <% if (myProfile.name && typeof myProfile.name === 'object') { %>
+          <%= myProfile.name.username || 'Unnamed User' %>
         <% } else { %>
-          User ID: <%= profile.name || 'N/A' %>
+          User ID: <%= myProfile.name.username || 'N/A' %>
         <% } %>
       </h2>
       <span class="badge-position"><%= profile.position %></span>
@@ -48,12 +47,7 @@
       </div>
     </div>
 
-    <% if (profile.createdAt) { %>
-      <div class="card-footer">
-        Profile created: <%= new Date(profile.createdAt).toLocaleDateString() %>
-      </div>
-    <% } %>
-  </div>
+  
 
 </body>
 </html>
