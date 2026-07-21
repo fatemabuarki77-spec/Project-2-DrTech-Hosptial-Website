@@ -1,56 +1,60 @@
 const express = require("express");
 const router = express.Router();
 const Booking = require("../models/bookings");
-//const User = require("../models/User");
-const Service = require("../models/services");
+const Profile = require("../models/profile");
 
 // 1. READ: Get Patient Dashboard (All Appts)
-
 router.get("/new", async (req, res) => {
   try {
-    // Find all bookings matching logged-in patient, populate references
     const patientHistory = await Booking.find({
       patient: req.session.user._id,
-    }).populate({
-      path: "service",
-      populate: {
-        path: "provider",
-        select: "username",
-      },
-    });
-    // Fetch doctors and services to populate booking dropdowns in view
-    const availableServices = await Service.find({}).populate("provider");
+    }).populate("provider");
+
+    const apptType = ["in-person", "telehealth"];
+
+    const doctors = await Profile.find({
+      Availability: true,
+    }).populate("name");
 
     res.render("dashboard-pt.ejs", {
       patientHistory,
-      availableServices,
+      doctors,
+      user: req.session.user,
+      apptType,
     });
   } catch (error) {
     console.error("Dashboard error:", error);
     res.status(500).send("Server Error loading dashboard.");
   }
 });
-
+router.get("/doc-appts", async (req, res) => {
+  const profile = await Profile.findOne({ name: req.session.user._id });
+  const docAppt = await Booking.find({ provider: profile._id }).populate(
+    "patient",
+  );
+  console.log(docAppt);
+  res.render("schedule.ejs", { docAppt });
+});
 // 2. CREATE: Submit a New Appointment
 
-router.post("/", async (req, res) => {
-  try {
-    const { serviceId, date, appttype } = req.body;
+// router.post("/", async (req, res) => {
+//   try {
+//     const { date, appttype } = req.body;
 
-    await Booking.create({
-      patient: req.session.user._id,
-      provider: selectedService.provider,
-      date: new Date(date),
-      appttype: appttype,
-      status: "Pending",
-    });
+//     await Booking.create({
+//       patient: req.session.user._id,
+//       provider: req.body.provider,
 
-    res.redirect("/new");
-  } catch (error) {
-    console.error("Booking error:", error);
-    res.status(500).send("Error creating appointment.");
-  }
-});
+//       appttype: "in-person",
+//       status: "Pending",
+//     });
+
+//     res.redirect("/appt/new");
+//   } catch (error) {
+//     console.error("Booking error:", error);
+//     res.status(500).send("Error creating appointment.");
+//   }
+// });
 
 // 3. UPDATE: Edit an Appointment Form & Submission
 
@@ -59,13 +63,12 @@ router.get("/:id/edit", async (req, res) => {
   try {
     const appointment = await Booking.findById(req.params.id);
     const doctors = await User.find({ role: "Doctor" });
-    const services = await Service.find({});
 
     if (appointment.patient.toString() !== req.session.user._id.toString()) {
       return res.status(401).send("Unauthorized");
     }
 
-    res.render("edit-appt.ejs", { appointment, doctors, services });
+    res.render("edit-appt.ejs", { appointment, doctors });
   } catch (error) {
     res.status(500).send("Error retrieving appointment.");
   }
@@ -73,11 +76,10 @@ router.get("/:id/edit", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   try {
-    const { providerId, serviceId, date, appttype } = req.body;
+    const { providerId, date, appttype } = req.body;
 
     await Booking.findByIdAndUpdate(req.params.id, {
       provider: providerId,
-      service: serviceId,
       date: new Date(date),
       appttype: appttype,
     });
@@ -102,6 +104,44 @@ router.delete("/:id", async (req, res) => {
     res.redirect("/appt/new");
   } catch (error) {
     res.status(500).send("Error deleting appointment.");
+  }
+});
+router.post("/book", async (req, res) => {
+  try {
+    const patientId = req.session.user._id;
+
+    console.log(req.body);
+    const { provider, date, type } = req.body;
+
+    await Booking.create({
+      patient: patientId,
+      provider: provider,
+      date: req.body.date,
+      time: req.body.time,
+      appttype: req.body.appttype,
+      status: "Pending",
+    });
+
+    res.redirect("/appt/new");
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).send("Booking failed");
+  }
+});
+router.get("/dashboard", async (req, res) => {
+  try {
+    const doctors = await Profile.find({
+      Availability: true,
+    }).populate("name", "username");
+
+    res.render("dashboard-pt.ejs", {
+      user: req.session.user,
+      doctors,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Error loading dashboard");
   }
 });
 

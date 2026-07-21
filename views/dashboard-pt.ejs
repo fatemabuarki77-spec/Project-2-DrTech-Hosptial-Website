@@ -1,36 +1,284 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <%- include('../partials/navbar') %>
 
-    <h1>My Medical Dashboard</h1>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Dashboard - DrTech Hospital</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
 
-    <h2>Book an Appointment</h2>
+<body>
 
-    <form action="/appt/new" method="POST">
-      <label for="doctorname">Select Doctor name:</label>
-      <input
-        type="text"
-        name="doctorname"
-        required
-        placeholder="Doctor name here"
-      />
+  <%- include('../partials/navbar') %>
 
-      <label for="date">Appointment Date & Time:</label>
-      <input type="datetime-local" name="date" required />
+  <header>
+    <div>
+      <h1>Dr Tech Hospital Patient Dashboard</h1>
+      <strong>Managing your care and connections</strong>
+    </div>
 
-      <label for="type">Appointment Type:</label>
-      <select name="type" required>
-        <option value="in-person">In-Person Visit</option>
-        <option value="telehealth">Telehealth (Video Call)</option>
-      </select>
+    <div>
+      <p>
+        Welcome back,
+        <% if (user) { %>
+          <%= user.username || user.name %>
+        <% } else { %>
+          Guest
+        <% } %>
+      </p>
+    </div>
+  </header>
 
-      <button type="submit">Confirm Booking</button>
-    </form>
-  </body>
+
+  <main>
+
+    <!-- Dashboard Summary -->
+    <section>
+      <h2>Dashboard Summary</h2>
+
+      <ul>
+        <li>
+          <strong>Scheduled Appointments:</strong>
+          <%= patientHistory ? patientHistory.length : 0 %>
+        </li>
+      </ul>
+    </section>
+
+
+
+    <!-- Request Appointment -->
+    <section>
+
+      <h2>Request Appointment</h2>
+
+      <p>
+        Choose a doctor and select your preferred appointment time.
+      </p>
+
+
+      <form action="/appt/book" method="POST">
+
+
+        <!-- Doctor Selection -->
+        <div>
+          <label for="doctor">
+            Choose Doctor:
+          </label>
+
+          <select name="provider" id="doctor" required>
+<option disabled selected>Choose Doctor</option>
+<%for (let oneDoctor of doctors){%>
+            <option value="<%=oneDoctor._id%>">
+<p><%=oneDoctor.name.username%>  -  <%=oneDoctor.specialty%></p></option>
+  <%}%>        
+          </select>
+
+        </div>
+
+
+
+        <!-- Date -->
+        <div>
+
+          <label for="date">
+            Preferred Date & Time:
+          </label>
+
+          <input 
+            type="datetime-local"
+            id="date"
+            name="date"
+            required
+          >
+
+        </div>
+
+
+
+        <!-- Appointment Type -->
+        
+ <div>
+          <p>
+            <strong>Appointment Type:</strong>
+          </p>
+
+
+          <label>
+            <input 
+              type="radio"
+              name="appttype"
+              value="in-person"
+              checked
+            >
+            In-Person
+          </label>
+
+
+          <br>
+
+
+          <label>
+            <input 
+              type="radio"
+              name="appttype"
+              value="telehealth"
+            >
+            Telehealth
+          </label>
+
+
+        </div>
+
+
+        <!-- Submit -->
+        <div>
+
+          <button type="submit">
+            Submit Appointment Request
+          </button>
+
+        </div>
+
+
+      </form>
+
+    </section>
+
+
+
+
+    <!-- Appointment History -->
+    <section>
+
+      <h2>Your Appointment History</h2>
+
+      <p>
+        View your upcoming and previous appointments.
+      </p>
+
+
+      <p>
+        <strong>
+          <%= patientHistory ? patientHistory.length : 0 %>
+        </strong>
+        Registered Booking(s)
+      </p>
+
+
+
+      <table border="1">
+
+        <thead>
+
+          <tr>
+            <th>Doctor</th>
+            <th>Date & Time</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+
+        </thead>
+
+
+
+        <tbody>
+
+
+          <% if (patientHistory && patientHistory.length > 0) { %>
+
+
+            <% patientHistory.forEach(appt => { %>
+
+
+              <tr>
+
+
+                <td>
+                  <%= appt.provider?.username || "Consultation" %>
+                </td>
+
+
+                <td>
+                  <%= new Date(appt.date).toLocaleString() %>
+                </td>
+
+
+                <td>
+                  <%for (let oneType of apptType){%>
+                  <%= oneType %>
+                  <%}%>
+                </td>
+
+
+                <td>
+                  <%= appt.status %>
+                </td>
+
+
+                <td>
+
+
+
+                  <form 
+                    action="/appt/<%= appt._id %>?_method=DELETE"
+                    method="POST"
+                    style="display:inline;"
+                    onsubmit="return confirm('Cancel this appointment?')"
+                  >
+
+                    <button type="submit">
+                      Cancel
+                    </button>
+
+                  </form>
+
+
+                </td>
+
+
+              </tr>
+
+
+            <% }) %>
+
+
+          <% } else { %>
+
+
+            <tr>
+
+              <td colspan="5">
+
+                <h3>
+                  No appointments scheduled
+                </h3>
+
+                <p>
+                  Use the appointment request section above to book your visit.
+                </p>
+
+              </td>
+
+            </tr>
+
+
+          <% } %>
+
+
+        </tbody>
+
+
+      </table>
+
+
+    </section>
+
+
+  </main>
+
+
+</body>
+
 </html>
+

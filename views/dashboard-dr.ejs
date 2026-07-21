@@ -1,71 +1,249 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Patient Dashboard - Dr.Tech Hospital</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard - Dr.Tech Hospital</title>
 </head>
+
 <body>
-    <%- include('../partials/navbar') %>
 
-    <h1>My Medical Dashboard</h1>
+<%- include('../partials/navbar') %>
 
-    <!-- Booking Form Section -->
-    <h2>Book an Appointment</h2>
-    <form action="/appointments/book" method="POST">
-        <label for="doctorId">Select Doctor ID/Select Field:</label>
-        <input type="text" name="doctorId" required placeholder="Paste Doctor ID here">
+<header>
+    <h1>Doctor Dashboard</h1>
 
-        <label for="date">Appointment Date & Time:</label>
-        <input type="datetime-local" name="date" required>
+```
+<p>
+    Welcome 
+    <%= user.username || user.name %>
+</p>
+```
 
-        <label for="type">Appointment Type:</label>
-        <select name="type" required>
-            <option value="in-person">In-Person Visit</option>
-            <option value="telehealth">Telehealth (Video Call)</option>
-        </select>
+</header>
 
-        <button type="submit">Confirm Booking</button>
-    </form>
+<hr>
 
-    <hr>
+<!-- Doctor Profile -->
 
-    <!-- Appointment Lists -->
-    <h2>Upcoming Visits</h2>
-    <% if (upcoming.length === 0) { %>
-        <p>No upcoming visits scheduled.</p>
-    <% } else { %>
-        <ul>
-            <% upcoming.forEach(app => { %>
-                <li>
-                    <strong>Doctor:</strong> Dr. <%= app.doctor.username %> (<%= app.doctor.specialty %>)<br>
-                    <strong>When:</strong> <%= new Date(app.date).toLocaleString() %><br>
-                    <strong>Type:</strong> <%= app.type %><br>
-                    <strong>Status:</strong> <%= app.status %><br>
-                    <form action="/appointments/cancel/<%= app._id %>?_method=PUT" method="POST" style="display:inline;">
-                        <button type="submit" onclick="return confirm('Are you sure?')">Cancel Appointment</button>
-                    </form>
-                </li>
-                <br>
-            <% }) %>
-        </ul>
-    <% } %>
+<section>
 
-    <h2>Past & Completed History</h2>
-    <% if (past.length === 0) { %>
-        <p>No past appointments found.</p>
-    <% } else { %>
-        <ul>
-            <% past.forEach(app => { %>
-                <li>
-                    <strong>Doctor:</strong> Dr. <%= app.doctor.username %><br>
-                    <strong>Date:</strong> <%= new Date(app.date).toLocaleDateString() %><br>
-                    <strong>Status:</strong> <%= app.status %><br>
-                    <% if(app.consultationNotes) { %>
-                        <p><em>Notes from Doctor:</em> <%= app.consultationNotes %></p>
-                    <% } %>
-                </li>
-            <% }) %>
-        </ul>
-    <% } %>
+<h2>My Profile</h2>
+
+<% if (profile) { %>
+
+<p>
+    Name:
+    <%= profile.name.username || profile.name.name %>
+</p>
+
+<p>
+    Availability:
+    <%= profile.Availability ? "Available" : "Unavailable" %>
+</p>
+
+<form action="/doctor/availability?_method=PUT" method="POST">
+
+<select name="Availability">
+
+<option value="true">
+Available
+</option>
+
+<option value="false">
+Unavailable
+</option>
+
+</select>
+
+<button type="submit">
+Update Status
+</button>
+
+</form>
+
+<% } %>
+
+</section>
+
+<hr>
+
+<!-- Upcoming Appointments -->
+
+<section>
+
+<h2>Upcoming Patient Visits</h2>
+
+<% if (!bookings || bookings.length === 0) { %>
+
+<p>
+No appointments scheduled.
+</p>
+
+<% } else { %>
+
+<ul>
+
+<% bookings.forEach(app => { %>
+
+<li>
+
+<h3>
+
+<a href="/doctor/patient/<%= app.patient._id %>">
+
+<%= app.patient.name || app.patient.username %>
+
+</a>
+
+</h3>
+
+<p>
+Date:
+<%= new Date(app.date).toLocaleString() %>
+</p>
+
+<p>
+Service:
+<%= app.service ? app.service.Name : "General Consultation" %>
+</p>
+
+<p>
+Status:
+<%= app.status %>
+</p>
+
+<a href="/doctor/patient/<%= app.patient._id %>">
+
+Open Patient Chart
+
+</a>
+
+</li>
+
+<br>
+
+<% }) %>
+
+</ul>
+
+<% } %>
+
+</section>
+
+<hr>
+
+<!-- Inpatients -->
+
+<section>
+
+<h2>Current Patients</h2>
+
+<% if (!inpatients || inpatients.length === 0) { %>
+
+<p>
+No admitted patients.
+</p>
+
+<% } else { %>
+
+<table border="1">
+
+<thead>
+
+<tr>
+
+<th>
+Patient
+</th>
+
+<th>
+Gender
+</th>
+
+<th>
+Ward
+</th>
+
+<th>
+Illness
+</th>
+
+<th>
+Action
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<% inpatients.forEach(patient => { %>
+
+<tr>
+
+<td>
+
+<a href="/doctor/patient/<%= patient._id %>">
+
+<%= patient.name %>
+
+</a>
+
+</td>
+
+<td>
+<%= patient.gender %>
+</td>
+
+<td>
+<%= patient.wards %>
+</td>
+
+<td>
+<%= patient.illness %>
+</td>
+
+<td>
+
+<a href="/doctor/patient/<%= patient._id %>">
+
+View Chart
+
+</a>
+
+</td>
+
+</tr>
+
+<% }) %>
+
+</tbody>
+
+</table>
+
+<% } %>
+
+</section>
+
+<hr>
+
+<!-- Services -->
+
+<section>
+
+<h2>Medical Services</h2>
+
+<a href="/service/new"> // ask for help ???????
+
+Add New Service
+
+</a>
+
+</section>
+
 </body>
+
 </html>

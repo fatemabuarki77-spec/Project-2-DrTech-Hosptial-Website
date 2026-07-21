@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Chart - Dr.Tech Hospital</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<%- include('../partials/navbar') %>
+
+<h1>Patient Medical Chart</h1>
+
+<section>
+
+<h2>Patient Information</h2>
+
+<p>
+    <strong>Name:</strong>
+    <%= patient.name || patient.username %>
+</p>
+
+<p>
+    <strong>Gender:</strong>
+    <%= patient.gender || "Not provided" %>
+</p>
+
+<p>
+    <strong>Illness:</strong>
+    <%= patient.illness || "Not provided" %>
+</p>
+
+<p>
+    <strong>Ward:</strong>
+    <%= patient.wards || "Not assigned" %>
+</p>
+
+<p>
+    <strong>Admission Days:</strong>
+    <%= patient.daysOfAdmission || 0 %>
+</p>
+
+<p>
+    <strong>Discharge Status:</strong>
+
+```
+<% if(patient.isReadyForDischarge) { %>
+
+    Ready for discharge
+
+<% } else { %>
+
+    Under treatment
+
+<% } %>
+```
+
+</p>
+
+</section>
+
+<hr>
+
+<!-- Doctor Notes -->
+
+<section>
+
+<h2>Doctor Consultation Notes</h2>
+
+<form action="/doctor/patient/<%= patient._id %>/notes?_method=PUT"
+      method="POST">
+
+<textarea
+name="notes"
+rows="8"
+cols="60"
+placeholder="Write patient notes..."><%= patient.notes || "" %></textarea>
+
+<br><br>
+
+<button type="submit">
+Save Notes
+</button>
+
+</form>
+
+</section>
+
+<hr>
+
+<!-- Previous Notes -->
+
+<section>
+
+<h2>Previous Medical Notes</h2>
+
+<% if(patient.notes) { %>
+
+<p>
+<%= patient.notes %>
+</p>
+
+<% } else { %>
+
+<p>
+No notes recorded yet.
+</p>
+
+<% } %>
+
+</section>
+
+<hr>
+
+<!-- Laboratory Requests -->
+
+<section>
+
+<h2>Request Laboratory Tests</h2>
+
+<form action="/doctor/patient/<%= patient._id %>/labs?_method=PUT"
+      method="POST">
+
+<label>
+<input type="checkbox" name="labs" value="CBC">
+CBC
+</label>
+
+<br>
+
+<label>
+<input type="checkbox" name="labs" value="Blood Chemistry">
+Blood Chemistry
+</label>
+
+<br>
+
+<label>
+<input type="checkbox" name="labs" value="Urinalysis">
+Urinalysis
+</label>
+
+<br><br>
+
+<button type="submit">
+Send Lab Request
+</button>
+
+</form>
+
+</section>
+
+<hr>
+
+<!-- Imaging Requests -->
+
+<section>
+
+<h2>Request X-Ray / Imaging</h2>
+
+<form action="/doctor/patient/<%= patient._id %>/xray?_method=PUT"
+      method="POST">
+
+<label>
+<input type="checkbox" name="xray" value="Chest X-Ray">
+Chest X-Ray
+</label>
+
+<br>
+
+<label>
+<input type="checkbox" name="xray" value="MRI">
+MRI
+</label>
+
+<br>
+
+<label>
+<input type="checkbox" name="xray" value="CT Scan">
+CT Scan
+</label>
+
+<br><br>
+
+<button type="submit">
+Request Imaging
+</button>
+
+</form>
+
+</section>
+
+<hr>
+
+<!-- Future Appointment -->
+
+<section>
+
+<h2>Schedule Future Visit</h2>
+
+<form action="/doctor/patient/<%= patient._id %>/appointment"
+      method="POST">
+
+<label>
+Date and Time:
+</label>
+
+<input 
+type="datetime-local"
+name="date"
+required>
+
+<br><br>
+
+<label>
+Visit Type:
+</label>
+
+<select name="type">
+
+<option value="follow-up">
+Follow-up
+</option>
+
+<option value="consultation">
+Consultation
+</option>
+
+<option value="emergency">
+Emergency
+</option>
+
+</select>
+
+<br><br>
+
+<button type="submit">
+Schedule Appointment
+</button>
+
+</form>
+
+</section>
+
+<hr>
+
+<a href="/doctor/dashboard">
+← Back to Doctor Dashboard
+</a>
+
+</body>
+
+</html>

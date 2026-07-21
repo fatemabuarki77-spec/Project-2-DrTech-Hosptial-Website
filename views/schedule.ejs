@@ -1,9 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body></body>
+<head>
+    <meta charset="UTF-8">
+    <title>Doctor Schedule 🏨</title>
+    <link rel="stylesheet" href="/styles.css"> 
+</head>
+<body>
+    <div class="container">
+        <h1>Your Appointments</h1>
+
+        <% if (docAppt && docAppt.length > 0) { %>
+            <table class="appointment-table">
+                <thead>
+                    <tr>
+                        <th>Patient</th>
+                        <th>Date & Time</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% docAppt.forEach(appt => { %>
+                        <tr>
+                            <td><%= appt.patient ? appt.patient.username : 'N/A' %></td>
+                            
+                            <td><%= new Date(appt.date)%></td>
+                            
+                            <td><%= appt.status || 'Scheduled' %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        <% } else { %>
+            <p>You have no upcoming appointments scheduled.</p>
+        <% } %>
+    </div>
+</body>
 </html>

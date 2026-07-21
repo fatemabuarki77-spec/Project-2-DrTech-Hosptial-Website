@@ -1,72 +1,93 @@
 const express = require("express");
 const router = express.Router();
 const Booking = require("../models/bookings");
+const Profile = require("../models/profile");
+const PatientList = require("../models/patientslist");
+const Service = require("../models/services");
 
-router.get("/doctor/new", (req, res) => {
-  res.render("schedule.ejs");
-});
+// router.get(`/dashboard`, async (req, res) => {
+//   try {
+//     const doctorAppt = await Booking.find({ provider: req.session.user._id });
+//     res.render("schedule.ejs", { doctorAppt });
+//   } catch (error) {
+//     console.error("Doctor dashboard load error:", error);
+//   }
+// });
 
-// 1. View daily schedule
-router.get("/doctor/schedule", async (req, res) => {
+router.get("/dashboard", async (req, res) => {
   try {
-    const startOfDay = new Date();
-    startOfDay.setHours(0, 0, 0, 0);
+    const doctorId = req.session.user._id;
 
-    const endOfDay = new Date();
-    endOfDay.setHours(23, 59, 59, 999);
+    const doctorProfile = await Profile.findOne({ name: doctorId }).populate(
+      "name",
+      "username",
+    );
 
-    const scheduleQuery = {
-      doctor: req.user._id,
-      date: {
-        $GreaterThanOrEqual: startOfDay,
-        $LessThanOrEqual: endOfDay,
-      },
-      status: {
-        $NotEqual: "Cancelled",
-      },
-    };
-
-    const scheduleFound = await Booking.find(scheduleQuery).populate("patient");
-    res.render("doctor/schedule", { schedule: scheduleFound });
+    // B. Retrieve all bookings registered with this doctor, populating patient info and service details
+    const assignedBookings = await Booking.find({ provider: doctorId })
+      .populate("patient", "username name")
+      .populate("service")
+      .sort({ date: 1 });
   } catch (error) {
-    console.error("Cannot load schedule:", error);
-    res.status(500).send("Error loading schedule");
+    console.error("Doctor dashboard load error:", error);
+    res.status(500).send("Server Error: Unable to fetch dashboard.");
   }
 });
 
-// 2. View patient file (History & requested services)
-router.get("/doctor/appointment/:appointmentId", async (req, res) => {
+// 2. UPDATE: Toggle Availability status inline
+router.put("/availability", async (req, res) => {
   try {
-    const appointmentId = req.params.appointmentId;
-    const appointmentFound =
-      await Booking.findById(appointmentId).populate("patient");
+    const doctorId = req.session.user._id;
+    const { Availability } = req.body;
 
-    res.render("doctor/patient-detail", { appointment: appointmentFound });
+    const updatedProfile = await Profile.findOneAndUpdate(
+      { name: doctorId },
+      { Availability: Availability === "true" },
+      { new: true },
+    );
+
+    if (!updatedProfile) {
+      return res.status(404).send("Professional profile not found.");
+    }
+
+    res.redirect("/doctor/dashboard");
   } catch (error) {
-    console.error("Cannot load patient details:", error);
-    res.status(500).send("Error loading patient details");
+    console.error("Availability update error:", error);
+    res.status(500).send("Error updating availability status.");
   }
 });
 
-// 4. Schedule next appointment for current patient
-router.post("/doctor/schedule-next", async (req, res) => {
-  try {
-    const incomingPatientId = req.body.patientId;
-    const nextDate = req.body.date;
-    const visitType = req.body.type;
+// 4. GET: Render Add Service Form
+router.get("/services/new", (req, res) => {
+  res.render("add-service.ejs", { user: req.session.user });
+});
 
-    await Booking.create({
-      patient: incomingPatientId,
-      doctor: req.user._id,
-      date: nextDate,
-      type: visitType,
+// 5. CREATE: Publish New Medical Service linked to the logged-in doctor
+router.post("/services", async (req, res) => {
+  try {
+    const doctorId = req.session.user._id;
+    const { name, description } = req.body;
+
+    await Service.create({
+      Name: name,
+      Description: description,
+      provider: doctorId,
     });
 
-    res.redirect("/doctor/schedule");
+    res.redirect("/doctor/dashboard");
   } catch (error) {
-    console.error("Cannot schedule next visit:", error);
-    res.status(500).send("Error scheduling next visit");
+    console.error("Service creation error:", error);
+    res.status(500).send("Server Error: Unable to publish hospital service.");
   }
+});
+
+router.get("/patient/:id", async (req, res) => {
+  const patient = await PatientList.findById(req.params.id);
+
+  res.render("patient-chart", {
+    patient,
+    user: req.session.user,
+  });
 });
 
 module.exports = router;
