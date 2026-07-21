@@ -27,9 +27,13 @@ const bookingschema = new mongoose.Schema(
       enum: ["Pending", "Assigned", "Completed", "Cancelled"],
       default: "Pending",
     },
-    consultationNotes: { type: String, default: " " },
-    requestedServices: [String], // e.g., ['lab test', 'imaging', 'referral']
+    notes: { type: String, default: "" },
+    labRequests: [{ type: String }],
+    customLabs: { type: String, default: "" },
+    xrayRequests: [{ type: String }],
+    customXrays: { type: String, default: "" },
   },
+
   { timestamps: true },
 );
 

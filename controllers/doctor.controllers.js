@@ -4,15 +4,7 @@ const Booking = require("../models/bookings");
 const Profile = require("../models/profile");
 const PatientList = require("../models/patientslist");
 const Service = require("../models/services");
-
-// router.get(`/dashboard`, async (req, res) => {
-//   try {
-//     const doctorAppt = await Booking.find({ provider: req.session.user._id });
-//     res.render("schedule.ejs", { doctorAppt });
-//   } catch (error) {
-//     console.error("Doctor dashboard load error:", error);
-//   }
-// });
+const isSignedIn = require("../middleware/is-signed-in");
 
 router.get("/dashboard", async (req, res) => {
   try {
@@ -35,7 +27,7 @@ router.get("/dashboard", async (req, res) => {
 });
 
 // 2. UPDATE: Toggle Availability status inline
-router.put("/availability", async (req, res) => {
+router.put("/availability", isSignedIn, async (req, res) => {
   try {
     const doctorId = req.session.user._id;
     const { Availability } = req.body;
@@ -63,7 +55,7 @@ router.get("/services/new", (req, res) => {
 });
 
 // 5. CREATE: Publish New Medical Service linked to the logged-in doctor
-router.post("/services", async (req, res) => {
+router.post("/services", isSignedIn, async (req, res) => {
   try {
     const doctorId = req.session.user._id;
     const { name, description } = req.body;
@@ -81,7 +73,7 @@ router.post("/services", async (req, res) => {
   }
 });
 
-router.get("/patient/:id", async (req, res) => {
+router.get("/patient/:id", isSignedIn, async (req, res) => {
   const patient = await PatientList.findById(req.params.id);
 
   res.render("patient-chart", {
@@ -89,5 +81,41 @@ router.get("/patient/:id", async (req, res) => {
     user: req.session.user,
   });
 });
+router.get("/all-doc", async (req, res) => {
+  const allDocs = await Profile.find({}).populate("name");
+  res.render("all-doctors.ejs", { allDocs });
+});
+router.get("/search", async (req, res) => {
+  try {
+    let search = {};
 
+    if (req.query.profile) {
+      const userinfo = await User.findOne({
+        name: {
+          $regex: req.query.profile,
+          $options: "i",
+        },
+      });
+
+      if (!userinfo) {
+        return res.render("all-doctors.ejs", {
+          allDocs: [],
+          searchQuery: req.query.profile,
+        });
+      }
+
+      search = { name: userinfo._id };
+    }
+
+    const allDocs = await Profile.find(search).populate("name");
+
+    res.render("all-doctors.ejs", {
+      allDocs,
+      searchQuery: req.query.profile || "",
+    });
+  } catch (err) {
+    console.log(err);
+    res.redirect("/");
+  }
+});
 module.exports = router;

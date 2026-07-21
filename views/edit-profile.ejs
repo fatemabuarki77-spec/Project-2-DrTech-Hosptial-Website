@@ -3,108 +3,102 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title> Profile Edit 🥼</title>
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="/css/doc-profile.css">
   </head>
   <body>
- <%- include('../partials/navbar') %>
-  <form action="/profile/<%= myProfile._id %>?_method=PUT" method="POST" class="card">
-    
-    <div class="card-header">
-      <h2>
-        <% if (myProfile.name && typeof myProfile.name === 'object') { %>
-          <%= myProfile.name.username || 'Unnamed User' %>
-        <% } else { %>
-          User ID: <%= myProfile.name || 'N/A' %>
-        <% } %>
-      </h2>
+    <%- include('../partials/navbar') %>
 
-      <div class="badge-select-wrapper">
-        <select name="position" class="badge-position-select" required>
-          <% const positionOptions = ['junior', 'Senior', 'cheif', 'Consultant']; %>
-          <% positionOptions.forEach(pos => { %>
-            <option value="<%= pos %>" <%= myProfile.position === pos ? 'selected' : '' %>>
-              <%= pos %>
-            </option>
-          <% }) %>
-        </select>
+    <div class="form-card">
+      <div class="form-header">
+        <h2>Edit Profile</h2>
+        <p>Update your professional medical profile details.</p>
       </div>
-    </div>
- 
-    <div class="card-body">
-      
-      <div class="info-group">
-        <label for="specialty" class="label">Specialty</label>
-        <div class="value">
-          <input 
-            type="text" 
-            id="specialty" 
-            name="specialty" 
-            class="edit-input" 
-            
-            value="<%= myProfile.specialty %>" 
-            placeholder="e.g. Cardiology" 
-            required 
+
+      <!-- Update form action/method to match your edit route (e.g., PUT or POST) -->
+<form action="/profile/<%= myProfile._id %>?_method=PUT" method="POST" class="card">
+        
+        <!-- User Display -->
+        <div class="form-group">
+          <label>
+            User: 
+            <% if (myProfile && myProfile.name && typeof myProfile.name === 'object') { %>
+              <%= myProfile.name.username || myProfile.name.name || 'Unnamed User' %>
+            <% } else { %>
+              <%= myProfile ? myProfile.name : 'N/A' %>
+            <% } %>
+          </label>
+        </div>
+
+        <!-- Specialty Select -->
+        <div class="form-group">
+          <label for="specialty">Specialty:</label>
+          <select name="specialty" id="specialty" class="form-control" required>
+            <option value="-" <%= myProfile?.specialty === '-' ? 'selected' : '' %>>-</option>
+            <option value="general" <%= myProfile?.specialty === 'general' ? 'selected' : '' %>>General Medicine</option>
+            <option value="cardiology" <%= myProfile?.specialty === 'cardiology' ? 'selected' : '' %>>Cardiology</option>
+            <option value="pediatrics" <%= myProfile?.specialty === 'pediatrics' ? 'selected' : '' %>>Pediatrics</option>
+            <option value="neurology" <%= myProfile?.specialty === 'neurology' ? 'selected' : '' %>>Neurology</option>
+          </select>
+        </div>
+
+        <!-- Position Select -->
+        <div class="form-group">
+          <label for="position">Position</label>
+          <select id="position" name="position" class="form-control" required>
+            <option value="" disabled <%= !myProfile?.position ? 'selected' : '' %>>-- Select Position --</option>
+            <option value="junior" <%= myProfile?.position === 'junior' ? 'selected' : '' %>>junior</option>
+            <option value="Senior" <%= myProfile?.position === 'Senior' ? 'selected' : '' %>>Senior</option>
+            <option value="cheif" <%= myProfile?.position === 'cheif' ? 'selected' : '' %>>cheif</option>
+            <option value="Consultant" <%= myProfile?.position === 'Consultant' ? 'selected' : '' %>>Consultant</option>
+          </select>
+        </div>
+
+        <!-- Experience -->
+        <div class="form-group">
+          <label for="experience">Experience</label>
+          <input
+            type="text"
+            id="experience"
+            name="experience"
+            class="form-control"
+            value="<%= myProfile?.experience || '' %>"
+            placeholder="e.g., 5 years, 8+ Years"
+            required
           />
         </div>
-      </div>
 
-      <div class="info-group">
-        <label for="experience" class="label">Experience</label>
-        <div class="value">
-          <input 
-            type="text" 
-            id="experience" 
-            name="experience" 
-            class="edit-input" 
-            value="<%= myProfile.experience %>" 
-            placeholder="e.g. 5 Years" 
-            required 
-          />
+        <!-- Availability -->
+        <div class="form-group">
+          <label>Availability Status</label>
+          <div class="radio-group">
+            <label class="radio-label">
+              <input 
+                type="radio" 
+                name="Availability" 
+                value="true" 
+                <%= (myProfile?.Availability === true || myProfile?.Availability === 'true') ? 'checked' : '' %> 
+              />
+              Available
+            </label>
+            <label class="radio-label">
+              <input 
+                type="radio" 
+                name="Availability" 
+                value="false" 
+                <%= (myProfile?.Availability === false || myProfile?.Availability === 'false') ? 'checked' : '' %> 
+              />
+              Unavailable
+            </label>
+          </div>
         </div>
-      </div>
 
-      <div class="info-group">
-        <span class="label">Availability Status</span>
-        <div class="status-radio-group">
-          
-          <label class="status-radio-label">
-            <input 
-              type="radio" 
-              name="Availability" 
-              value="true" 
-              <%= myProfile.Availability === true ? 'checked' : '' %> 
-            />
-            <span class="status-pill status-pill-available">
-              <span class="status-dot"></span> Available
-            </span>
-          </label>
-
-          <label class="status-radio-label">
-            <input 
-              type="radio" 
-              name="Availability" 
-              value="false" 
-              <%= myProfile.Availability === false ? 'checked' : '' %> 
-            />
-            <span class="status-pill status-pill-unavailable">
-              <span class="status-dot"></span> Unavailable
-            </span>
-          </label>
-
+        <!-- Action Buttons -->
+        <div class="btn-group">
+          <a href="/profile" class="btn btn-secondary">Cancel</a>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
         </div>
-      </div>
-
-     
-      <div class="form-actions">
-        <a href="/profile/<%= myProfile._id %>" class="btn btn-secondary">Cancel</a>
-        <button type="submit" class="btn">Save Changes</button>
-      </div>
-
+      </form>
     </div>
-
- 
-
-  </form>
-
-</body>
+  </body>
 </html>

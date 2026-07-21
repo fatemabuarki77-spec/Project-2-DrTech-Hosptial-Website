@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinic Notes - <%= appointment.patient ? appointment.patient.username : 'Patient' %></title>
+    <link rel="stylesheet" href="/css/apptlist.css">
+    
+</head>
+<body>
+    <%- include('../partials/navbar') %>
+
+    <div class="card" style="max-width: 700px;">
+        <div class="card-header">
+            <h2>Patient Clinic Notes 🩺</h2>
+            <span class="badge-position">
+                Patient: <%= appointment.patient ? appointment.patient.username : 'N/A' %>
+            </span>
+        </div>
+
+        <div class="card-body">
+            <div class="info-group">
+                <span class="label">Appointment Date</span>
+                <span class="value">
+                    <%= new Date(appointment.date).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' }) %>
+                </span>
+            </div>
+
+            <div class="info-group">
+                <span class="label">Appointment Type</span>
+                <span class="value" style="text-transform: capitalize;">
+                    <%= appointment.appttype || 'In-Person' %>
+                </span>
+            </div>
+
+            <form action="/appt/<%= appointment._id %>/notes" method="POST" style="margin-top: 1rem; text-align: left;">
+                
+                <!-- Clinical Observations -->
+                <div style="margin-bottom: 1.5rem;">
+                    <label for="notes" class="label" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">
+                        Doctor's Observations & Notes:
+                    </label>
+                    <textarea 
+                        id="notes" 
+                        name="notes" 
+                        rows="4" 
+                        class="edit-input" 
+                        style="width: 100%; max-width: 100%; text-align: left; padding: 0.75rem;" 
+                        placeholder="Enter diagnosis, symptoms, or clinical observations..."
+                    ><%= appointment.notes || '' %></textarea>
+                </div>
+
+                <!-- Lab Orders Section -->
+                <div class="order-section">
+                    <div class="order-title">🧪 Lab Tests Request</div>
+                    <div class="checkbox-grid">
+                        <% const labOptions = ['CBC (Blood Count)', 'BMP (Metabolic Panel)', 'Lipid Panel', 'HbA1c', 'LFT (Liver Panel)', 'Urinalysis']; %>
+                       
+                        <% labOptions.forEach(lab => { %>
+                            <label class="checkbox-label">
+                                <input 
+                                    type="checkbox" 
+                                    name="labRequests" 
+                                    value="<%= lab %>" 
+                                    <%= appointment.labRequests && appointment.labRequests.includes(lab) ? 'checked' : '' %>
+                                />
+                                <%= lab %>
+                            </label>
+                        <% }) %>
+                    </div>
+                    <input 
+                        type="text" 
+                        name="customLabs" 
+                        class="edit-input" 
+                        style="width: 100%; max-width: 100%; text-align: left;" 
+                        placeholder="Additional Lab Orders (e.g., Vitamin D, TSH)..."
+                        value="<%= appointment.customLabs || '' %>"
+                    />
+                </div>
+
+                <!-- Radiology / X-Ray Orders Section -->
+                <div class="order-section">
+                    <div class="order-title">🩻 X-Ray & Imaging Request</div>
+                    <div class="checkbox-grid">
+                        <% const xrayOptions = ['Chest X-Ray', 'Abdominal X-Ray', 'Spine X-Ray', 'Joint X-Ray', 'CT Scan', 'MRI']; %>
+
+                        <% xrayOptions.forEach(xray => { %>
+                            <label class="checkbox-label">
+                                <input 
+                                    type="checkbox" 
+                                    name="xrayRequests" 
+                                    value="<%= xray %>" 
+                                    <%= appointment.xrayRequests && appointment.xrayRequests.includes(xray) ? 'checked' : '' %>
+                                />
+                                <%= xray %>
+                            </label>
+                        <% }) %>
+                    </div>
+                    
+                </div>
+
+                <!-- Actions -->
+                <div class="form-actions">
+                    <a href="/appt/doc-appts" class="btn btn-secondary">Back to Schedule</a>
+                    <button type="submit" class="btn btn-edit">Save Notes & Orders</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

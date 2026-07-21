@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const Profile = require(`../models/profile`);
+const isSignedIn = require("../middleware/is-signed-in");
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", isSignedIn, async (req, res) => {
   try {
     const myID = String(req.session.user._id);
     const myProfile = await Profile.findOne({ name: req.params.id }).populate(
@@ -24,7 +25,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // 1. Render the Edit Form
-router.get("/:id/edit", async (req, res) => {
+router.get("/:id/edit", isSignedIn, async (req, res) => {
   try {
     const profile = await Profile.findById(req.params.id).populate("name");
 
@@ -39,7 +40,7 @@ router.get("/:id/edit", async (req, res) => {
 });
 
 // 2. Handle Profile Update
-router.put("/:id", async (req, res) => {
+router.put("/:id", isSignedIn, async (req, res) => {
   try {
     const { specialty, position, experience, Availability } = req.body;
 
@@ -63,7 +64,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // 1. GET: Render the creation form, passing all system users to bind to the profile
-router.get("/new", async (req, res) => {
+router.get("/new", isSignedIn, async (req, res) => {
   try {
     const users = await User.find({});
     res.render("create-profile", { users });
@@ -73,7 +74,7 @@ router.get("/new", async (req, res) => {
 });
 
 // 2. POST: Process the new profile creation
-router.post("/new", async (req, res) => {
+router.post("/new", isSignedIn, async (req, res) => {
   try {
     const { specialty, position, experience, Availability } = req.body;
     const isAvailable = Availability === "true";

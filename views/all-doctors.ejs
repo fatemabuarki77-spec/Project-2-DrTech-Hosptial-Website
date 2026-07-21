@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Doctors | Dr.Tech</title>
+  <!-- Link your external stylesheet -->
+  <link rel="stylesheet" href="/css/profile.css">
+</head>
+<body>
+ <%- include('../partials/navbar') %>
+  <div class="container">
+    <div class="header">
+      <h1>Our Medical Team</h1>
+      <p>Search and view profiles of all specialists at Med-Tech</p>
+    </div>
+
+    <!-- Search Form -->
+    <div class="search-section">
+      <form action="/search" method="GET" class="search-form">
+        <input 
+          type="text" 
+          name="profile" 
+          class="search-input" 
+          placeholder="Search doctor by name..." 
+          value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>"
+        >
+        <button type="submit" class="search-btn">Search</button>
+      </form>
+    </div>
+
+    <!-- Doctors Cards Grid -->
+    <div class="doctors-grid">
+      <% if (typeof allDocs !== 'undefined' && allDocs.length > 0) { %>
+        <% allDocs.forEach(doc => { %>
+          <div class="doctor-card">
+            <div>
+              <div class="card-header">
+                <h2 class="doctor-name">
+                 <%= doc.name ? (doc.name.name || doc.name.username) : 'Unknown Doctor' %>
+                </h2>
+                <span class="position-badge"><%= doc.position %></span>
+              </div>
+
+              <div class="details">
+                <p class="detail-item">
+                  <strong>Specialty:</strong> <%= doc.specialty %>
+                </p>
+                <p class="detail-item">
+                  <strong>Experience:</strong> <%= doc.experience %>
+                </p>
+                <p class="detail-item">
+                  <strong>Status:</strong> 
+                  <% if (doc.Availability) { %>
+                    <span class="status-badge status-available">Available</span>
+                  <% } else { %>
+                    <span class="status-badge status-unavailable">Unavailable</span>
+                  <% } %>
+                </p>
+              </div>
+           
+        <% }) %>
+      <% } else { %>
+        <div class="no-doctors">
+          <h3>No doctors found</h3>
+        
+      <% } %>
+    </div>
+  </div>
+
+</body>
+</html>

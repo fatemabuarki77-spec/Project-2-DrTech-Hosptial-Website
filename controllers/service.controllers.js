@@ -1,13 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const Service = require("../models/services");
+const isSignedIn = require("../middleware/is-signed-in");
 
 // 1. GET Route: Render the form to add a new service
 router.get("/new", (req, res) => {
   res.render("new-service.ejs");
 });
 
-router.post("/services", async (req, res) => {
+router.post("/services", isSignedIn, async (req, res) => {
   try {
     const { name, description } = req.body;
     await Service.create({
