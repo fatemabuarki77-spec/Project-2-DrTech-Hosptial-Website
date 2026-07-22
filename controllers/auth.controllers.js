@@ -22,9 +22,7 @@ router.post("/sign-up", async (req, res) => {
   const hashedPassword = bcrypt.hashSync(req.body.password, 10);
   req.body.password = hashedPassword;
 
-  // validation logic
-
-  const user = await User.create(req.body);
+  await User.create(req.body);
   res.redirect("/auth/sign-in");
 });
 
@@ -34,13 +32,11 @@ router.get("/sign-in", (req, res) => {
 });
 
 router.post("/sign-in", async (req, res) => {
-  // First, get the user from the database
   const userInDatabase = await User.findOne({ username: req.body.username });
   if (!userInDatabase) {
     return res.send("Login failed. Please try again.");
   }
 
-  // There is a user! Time to test their password with bcrypt
   const validPassword = bcrypt.compareSync(
     req.body.password,
     userInDatabase.password,
@@ -49,31 +45,45 @@ router.post("/sign-in", async (req, res) => {
     return res.send("Login failed. Please try again.");
   }
 
-  // There is a user AND they had the correct password. Time to make a session!
-  // Avoid storing the password, even in hashed format, in the session
-  // If there is other data you want to save to `req.session.user`, do so here!
+  // Set session data
   req.session.user = {
     username: userInDatabase.username,
     _id: userInDatabase._id,
     role: userInDatabase.role,
   };
-  if (req.session.user.role == "doctor") {
-    const userProfile = await Profile.findOne({ name: req.session.user._id });
-    const usersName = req.session.user.username;
-    const userID = req.session.user._id;
-    if (userProfile == null) {
-      res.render("create-profile.ejs", { name: usersName, id: userID });
-    } else {
-      res.redirect("/");
+
+  // Save session explicitly before redirecting
+  req.session.save(async (err) => {
+    if (err) {
+      console.error(err);
+      return res.send("Session error, please try again.");
     }
-  } else {
+
+    if (req.session.user.role === "doctor") {
+      const userProfile = await Profile.findOne({ name: req.session.user._id });
+      if (userProfile == null) {
+        return res.render("create-profile.ejs", {
+          name: req.session.user.username,
+          id: req.session.user._id,
+        });
+      }
+    }
+
     res.redirect("/");
-  }
+  });
 });
 
+// Sign out route
 router.get("/sign-out", (req, res) => {
-  req.session.destroy();
-  res.redirect("/");
+  // Pass a callback to destroy() so the redirect ONLY happens after completion
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("Logout error:", err);
+    }
+    // Clear the session cookie on the client side
+    res.clearCookie("connect.sid");
+    res.redirect("/");
+  });
 });
 
 module.exports = router;

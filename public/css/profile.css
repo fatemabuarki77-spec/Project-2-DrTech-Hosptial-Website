@@ -1,10 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap");
 
-/* ==========================================================================
-   DrTech Hospital - Unified Master Stylesheet (IBM Plex Serif Theme)
-   ========================================================================== */
-
-/* --- CSS Variables / Design Tokens --- */
 :root {
   --primary: #1164bd;
   --primary-hover: #0d4e96;
@@ -44,14 +39,12 @@ body,
   overflow-x: hidden;
 }
 
-/* Page Body Target (#HB Layout) */
 #HB {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* Semi-transparent background image layer */
 #HB::before,
 body::before {
   content: "";
@@ -69,7 +62,6 @@ body::before {
   pointer-events: none;
 }
 
-/* Ensure foreground content sits above fixed background */
 #HB > *,
 .container,
 .content-container {
@@ -77,7 +69,6 @@ body::before {
   z-index: 1;
 }
 
-/* --- Navigation Bar --- */
 .nav,
 nav {
   position: fixed;
@@ -117,7 +108,6 @@ nav img {
   object-fit: contain;
 }
 
-/* --- Global Headings & Containers --- */
 #welcome {
   text-align: center;
   color: #283cac;
@@ -133,12 +123,11 @@ nav img {
 .container,
 .content-container {
   width: 100%;
-  max-width: 1100px; /* Slightly widened so 3 cards have comfortable room */
+  max-width: 1100px;
   margin: 0 auto;
   padding: 2rem 1rem;
 }
 
-/* --- Header Section (Centered) --- */
 .header {
   text-align: center;
   margin-bottom: 2rem;
@@ -156,7 +145,6 @@ nav img {
   font-size: 1rem;
 }
 
-/* --- Search Bar Section (Centered) --- */
 .search-section {
   max-width: 550px;
   margin: 0 auto 2.5rem auto;
@@ -212,14 +200,12 @@ nav img {
   transform: scale(0.98);
 }
 
-/* --- Doctors Grid Layout (Exact 3 Cards Per Row) --- */
 .doctors-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
 }
 
-/* --- Doctor Card (Centered Text & Themed) --- */
 .doctor-card {
   background: var(--bg-card);
   border-radius: var(--radius);
@@ -281,7 +267,6 @@ nav img {
   color: var(--text-main);
 }
 
-/* --- Status Badges --- */
 .status-badge {
   display: inline-block;
   font-size: 0.75rem;
@@ -293,7 +278,7 @@ nav img {
 
 .status-available {
   background-color: #dcfce7;
-  color: #15803d;
+  color: #2c2aa3;
   border: 1px solid #bbf7d0;
 }
 
@@ -303,7 +288,6 @@ nav img {
   border: 1px solid #fecaca;
 }
 
-/* --- Profile Button --- */
 .btn-profile {
   display: block;
   text-align: center;
@@ -328,7 +312,6 @@ nav img {
   transform: scale(0.98);
 }
 
-/* --- Fallback State (Empty Grid) --- */
 .no-doctors {
   grid-column: 1 / -1;
   text-align: center;
@@ -346,7 +329,6 @@ nav img {
   font-weight: 600;
 }
 
-/* --- Branding Banners / Logos --- */
 #HB1,
 #logo {
   display: block;
@@ -371,10 +353,9 @@ nav img {
   box-shadow: 0 14px 35px rgba(10, 75, 140, 0.25);
 }
 
-/* --- Responsive Adjustments --- */
 @media (max-width: 992px) {
   .doctors-grid {
-    grid-template-columns: repeat(2, 1fr); /* 2 columns on tablets */
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -416,6 +397,6 @@ nav img {
   }
 
   .doctors-grid {
-    grid-template-columns: 1fr; /* 1 column on mobile phones */
+    grid-template-columns: 1fr;
   }
 }

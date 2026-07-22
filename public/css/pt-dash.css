@@ -329,7 +329,6 @@ form[action*="_method=DELETE"] button:hover {
   color: #ffffff;
 }
 
-/* --- Table Styling (Centered Content) --- */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -337,7 +336,8 @@ table {
   background-color: #ffffff;
   border-radius: 8px;
   overflow: hidden;
-  border: 1px solid var(--border-color) !important;
+  border: 2px solid var(--border-color) !important;
+  outline: 2px solid var(--border-color) !important;
 }
 
 th,
@@ -345,7 +345,7 @@ td {
   padding: 0.9rem 1rem;
   text-align: center;
   vertical-align: middle;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 2px solid var(--border-color);
   font-size: 0.9rem;
 }
 
@@ -383,7 +383,6 @@ td[colspan="5"] p {
   font-size: 0.9rem;
 }
 
-/* --- Logos / Brand Banners --- */
 #HB1,
 #logo {
   display: block;
