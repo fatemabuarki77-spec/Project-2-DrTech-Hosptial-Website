@@ -42,7 +42,6 @@
   z-index: 1;
 }
 
-/* --- Navigation --- */
 .nav,
 nav {
   position: fixed;
@@ -105,7 +104,6 @@ nav img {
   margin: 0 auto;
 }
 
-/* --- Images --- */
 #HB1,
 #logo {
   display: block;
@@ -130,7 +128,6 @@ nav img {
   box-shadow: 0 14px 35px rgba(10, 75, 140, 0.25);
 }
 
-/* --- Footer --- */
 .site-footer {
   background-color: #0d4b8f;
   color: #ffffff;
@@ -171,7 +168,6 @@ nav img {
   color: #b3d7ff;
 }
 
-/* --- Responsive Adjustments --- */
 @media (max-width: 768px) {
   .nav,
   nav {

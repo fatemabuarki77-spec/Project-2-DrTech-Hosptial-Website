@@ -152,7 +152,6 @@ textarea:focus {
   color: #004b87;
 }
 
-/* Footer */
 footer {
   background-color: #00345f;
   color: white;
@@ -368,7 +367,6 @@ nav img {
   box-shadow: 0 14px 35px rgba(10, 75, 140, 0.25);
 }
 
-/* --- Responsive Adjustments --- */
 @media (max-width: 768px) {
   .nav,
   nav {

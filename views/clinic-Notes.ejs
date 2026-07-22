@@ -40,7 +40,7 @@
 
             <form action="/appt/<%= appointment._id %>/notes" method="POST" style="margin-top: 1rem; text-align: left;">
                 
-                <!-- Clinical Observations -->
+          
                 <div style="margin-bottom: 1.5rem;">
                     <label for="notes" class="label" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">
                         Doctor's Observations & Notes:
@@ -55,7 +55,7 @@
                     ><%= appointment.notes || '' %></textarea>
                 </div>
 
-                <!-- Lab Orders Section -->
+             
                 <div class="order-section">
                     <div class="order-title">🧪 Lab Tests Request</div>
                     <div class="checkbox-grid">
@@ -83,7 +83,7 @@
                     />
                 </div>
 
-                <!-- Radiology / X-Ray Orders Section -->
+           
                 <div class="order-section">
                     <div class="order-title">🩻 X-Ray & Imaging Request</div>
                     <div class="checkbox-grid">
@@ -104,7 +104,7 @@
                     
                 </div>
 
-                <!-- Actions -->
+             
                 <div class="form-actions">
                     <a href="/appt/doc-appts" class="btn btn-secondary">Back to Schedule</a>
                     <button type="submit" class="btn btn-edit">Save Notes & Orders</button>

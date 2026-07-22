@@ -11,7 +11,6 @@
     sans-serif;
 }
 
-/* Page background */
 body.sign-u,
 body.sign-b,
 body.sign\.u,
@@ -28,12 +27,9 @@ body.sign\.b {
   background-position: center;
   background-repeat: no-repeat;
 
-  /* Adjust background transparency here */
-
   z-index: 0;
 }
 
-/* Card Container Form */
 form {
   background: #ffffff;
   padding: 2.5rem 2rem;
@@ -47,7 +43,6 @@ form {
   flex-direction: column;
 }
 
-/* Form Headings */
 form h1 {
   color: #0f172a;
   font-size: 1.75rem;
@@ -56,7 +51,6 @@ form h1 {
   text-align: center;
 }
 
-/* Section Subheadings (Patient/Doctor info) */
 form h3 {
   font-size: 1rem;
   color: #2563eb;
@@ -65,14 +59,12 @@ form h3 {
   border-bottom: 1px solid #e2e8f0;
 }
 
-/* Form Groups */
 .form-group {
   margin-bottom: 1.25rem;
   display: flex;
   flex-direction: column;
 }
 
-/* Form Labels */
 label {
   color: #475569;
   font-size: 0.875rem;
@@ -80,7 +72,6 @@ label {
   margin-bottom: 0.5rem;
 }
 
-/* Input Fields & Select Dropdowns */
 input[type="text"],
 input[type="password"],
 select {
@@ -104,12 +95,10 @@ select:focus {
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
-/* Role Toggle Sections */
 .hidden {
   display: none !important;
 }
 
-/* Submit Button */
 button[type="submit"] {
   margin-top: 1rem;
   background-color: #2563eb;
@@ -132,28 +121,28 @@ button[type="submit"]:hover {
 button[type="submit"]:active {
   transform: scale(0.98);
 }
-/* --- Fixed Top Navigation Bar (SLIM & REDUCED HEIGHT) --- */
+
 .nav,
 nav {
-  position: fixed; /* Pin to top of screen */
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 50px; /* Enforces slim navbar height */
+  height: 50px;
   background-color: #1164bd;
-  padding: 0.4rem 1.5rem; /* Reduced top/bottom padding */
+  padding: 0.4rem 1.5rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  z-index: 100; /* Ensure navbar stays on top of all page elements */
+  z-index: 100;
 }
 
 .nav a,
 nav a {
   color: #ffffff;
   text-decoration: none;
-  font-size: 0.9rem; /* Slightly smaller text for compact layout */
+  font-size: 0.9rem;
   font-weight: 600;
   margin: 0 12px;
   transition: color 0.3s ease;
@@ -167,7 +156,7 @@ nav a:hover {
 .nav img,
 nav img {
   max-width: 100%;
-  height: 32px; /* Scaled down logo height to fit 50px navbar */
+  height: 32px;
   display: inline-block;
   object-fit: contain;
 }

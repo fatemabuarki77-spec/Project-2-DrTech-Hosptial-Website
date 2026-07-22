@@ -20,7 +20,6 @@
       <p>Search and view profiles of all specialists at Med-Tech</p>
     </div>
 
-    <!-- Search Form -->
    
 <div class="search-section">
   <form action="/doctor/search" method="GET" class="search-form">
@@ -39,11 +38,9 @@
   </form>
 </div>
 
-    <!-- Doctors Cards Grid -->
     <div class="doctors-grid">
       <% if (typeof allDocs !== 'undefined' && allDocs.length > 0) { %>
         <% allDocs.forEach(doc => { %>
-          <!-- Doctor Card Wrapper -->
           <div class="doctor-card">
             <div class="card-header">
               <h2 class="doctor-name">

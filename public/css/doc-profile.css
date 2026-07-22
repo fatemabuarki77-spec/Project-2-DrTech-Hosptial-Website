@@ -1,10 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap");
 
-/* ==========================================================================
-   DrTech Hospital - Profile & Shared UI Stylesheet
-   ========================================================================== */
-
-/* --- CSS Variables / Design Tokens --- */
 :root {
   --primary: #1164bd;
   --primary-hover: #0d4e96;
@@ -23,7 +18,6 @@
   --nav-height: 50px;
 }
 
-/* --- Base Reset & Page Setup --- */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -46,7 +40,6 @@ body,
   align-items: center;
 }
 
-/* Semi-transparent background image layer */
 body::before,
 #HB::before {
   content: "";
@@ -64,7 +57,6 @@ body::before,
   pointer-events: none;
 }
 
-/* Ensure content elements sit above background layer */
 body > *,
 #HB > *,
 .card,
@@ -73,7 +65,6 @@ body > *,
   z-index: 1;
 }
 
-/* --- Navigation Bar --- */
 .nav,
 nav {
   position: fixed;
@@ -113,7 +104,6 @@ nav img {
   object-fit: contain;
 }
 
-/* --- Welcome Banner & Shared Containers --- */
 #welcome {
   text-align: center;
   color: #283cac;
@@ -128,14 +118,12 @@ nav img {
 
 .content-container {
   width: 100%;
-  max-width: 900px;
-  padding: 2.5rem 1rem;
+  max-width: 600px;
+  padding: 1rem;
 }
 
-/* --- Profile Card Layout --- */
 .card {
   width: 100%;
-  max-width: 550px;
   margin: 0 auto;
   background: var(--bg-card);
   border-radius: var(--radius);
@@ -150,7 +138,6 @@ nav img {
     box-shadow 0.2s ease;
 }
 
-/* Card Header & Name */
 .card-header {
   display: flex;
   flex-direction: column;
@@ -168,6 +155,12 @@ nav img {
   word-break: break-word;
 }
 
+.card-header .subtitle {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-top: 0.25rem;
+}
+
 .badge-position {
   font-size: 0.85rem;
   font-weight: 600;
@@ -180,7 +173,6 @@ nav img {
   display: inline-block;
 }
 
-/* Profile Info Groups */
 .card-body {
   display: flex;
   flex-direction: column;
@@ -210,7 +202,6 @@ nav img {
   font-size: 1rem;
 }
 
-/* --- Availability Status Badges --- */
 .status-badge {
   display: inline-flex;
   align-items: center;
@@ -250,22 +241,127 @@ nav img {
   box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
 }
 
-/* --- Edit Button Styles --- */
-.btn-edit {
+.form-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  text-align: left;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: left;
+}
+
+.form-label {
+  font-weight: 600;
+  color: var(--text-main);
+  font-size: 0.95rem;
+}
+
+.user-display {
+  background-color: var(--primary-light);
+  color: var(--primary-hover);
+  font-weight: 700;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  font-size: 1rem;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  color: var(--text-main);
+  background-color: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: var(--shadow-sm);
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.form-control:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(17, 100, 189, 0.15);
+}
+
+select.form-control {
+  cursor: pointer;
+  appearance: auto;
+}
+
+.radio-group {
+  display: flex;
+  gap: 1rem;
+}
+
+.radio-label {
+  flex: 1;
+  cursor: pointer;
+}
+
+.radio-label input[type="radio"] {
+  display: none;
+}
+
+.custom-radio {
+  display: block;
+  text-align: center;
+  padding: 0.65rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: 1px solid var(--border-color);
+  background-color: #ffffff;
+  color: var(--text-muted);
+  transition: all 0.2s ease;
+}
+
+.radio-label.status-available-option
+  input[type="radio"]:checked
+  + .custom-radio {
+  background-color: #dcfce7;
+  color: #15803d;
+  border-color: #bbf7d0;
+  box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.2);
+}
+
+.radio-label.status-unavailable-option
+  input[type="radio"]:checked
+  + .custom-radio {
+  background-color: #fee2e2;
+  color: #b91c1c;
+  border-color: #fecaca;
+  box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
+}
+
+.btn-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.btn,
+#edit-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  background-color: var(--primary);
-  color: #ffffff;
-  border: 1px solid transparent;
-  padding: 0.65rem 1.25rem;
+  padding: 0.75rem 1.25rem;
   border-radius: 8px;
   font-family: var(--font-serif);
   font-size: 0.95rem;
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
+  border: 1px solid transparent;
   transition:
     background-color 0.2s ease,
     transform 0.1s ease,
@@ -273,45 +369,56 @@ nav img {
   box-shadow: var(--shadow-sm);
 }
 
-.btn-edit:hover {
+.btn-primary,
+#edit-btn {
+  background-color: var(--primary);
+  color: #ffffff;
+}
+
+.btn-primary:hover,
+#edit-btn:hover {
   background-color: var(--primary-hover);
   color: #ffffff;
   box-shadow: 0 4px 12px rgba(17, 100, 189, 0.25);
 }
 
-.btn-edit:active {
+.btn-primary:active,
+#edit-btn:active {
   transform: scale(0.98);
 }
 
-.btn-edit:focus {
+.btn-primary:focus,
+#edit-btn:focus {
   outline: none;
   box-shadow: 0 0 0 3px rgba(17, 100, 189, 0.25);
 }
 
-.btn-edit-outline {
+.btn-secondary,
+#edit-btn-outline {
   background-color: #ffffff;
   color: var(--primary);
   border: 1px solid var(--border-color);
 }
 
-.btn-edit-outline:hover {
+.btn-secondary:hover,
+#edit-btn-outline:hover {
   background-color: var(--primary-light);
   color: var(--primary-hover);
   border-color: var(--primary);
 }
 
-.btn-edit-sm {
+#edit-btn-sm {
   padding: 0.35rem 0.75rem;
   font-size: 0.85rem;
   border-radius: 6px;
 }
 
 .btn-block {
+  display: flex;
   width: 100%;
   margin-top: 1.5rem;
 }
 
-/* --- Branding Banners / Logos --- */
 #HB1,
 #logo {
   display: block;
@@ -336,7 +443,6 @@ nav img {
   box-shadow: 0 14px 35px rgba(10, 75, 140, 0.25);
 }
 
-/* --- Responsive Adjustments --- */
 @media (max-width: 768px) {
   body,
   #HB {
@@ -372,11 +478,6 @@ nav img {
 
   .card {
     padding: 1.5rem 1rem;
-    max-width: 100%;
-  }
-
-  .card-header h2 {
-    font-size: 1.6rem;
   }
 
   .info-group {
@@ -384,5 +485,14 @@ nav img {
     align-items: center;
     gap: 0.3rem;
     text-align: center;
+  }
+
+  .btn-group {
+    flex-direction: column-reverse;
+  }
+
+  .radio-group {
+    flex-direction: column;
+    gap: 0.5rem;
   }
 }

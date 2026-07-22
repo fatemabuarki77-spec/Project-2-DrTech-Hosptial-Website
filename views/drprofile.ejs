@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title><%= profile.name ? profile.name.username || profile.name.name : 'User' %>'s Profile</title>
-    <link rel="icon" href="image link" type="image/png">
-        <link rel="stylesheet" href="/css/profile.css">
-         <link
+    <title><%= profile?.name ? (profile.name.username || profile.name.name) : 'User' %>'s Profile</title>
+    <link rel="stylesheet" href="/css/doc-profile.css">
+    <link
       rel="icon"
       href="/imgs/Gemini_Generated_Image_32rk1432rk1432rk_copy-removebg-preview.png"
       type="image/png"
@@ -14,55 +13,59 @@
 </head>
 <body>
     
-    <%- include('../partials/navbar') %>
+  <%- include('../partials/navbar') %>
 
-  <div class="card">
-    <div class="card-header">
-    
-
-
-
-
+  <div class="content-container">
+    <div class="card">
       
-  <h2>
-        <% if (myProfile.name && typeof myProfile.name === 'object') { %>
-          <%= myProfile.name.username || 'Unnamed User' %>
-        <% } else { %>
-          User ID: <%= myProfile.name.username || 'N/A' %>
-        <% } %>
-      </h2>
-      <span class="badge-position"><%= profile.position %></span>
-    </div>
-
-    <div class="card-body">
-      <div class="info-group">
-        <span class="label">Specialty</span>
-        <span class="value"><%= profile.specialty %></span>
-      </div>
-
-      <div class="info-group">
-        <span class="label">Experience</span>
-        <span class="value"><%= profile.experience %></span>
-      </div>
-
-      <div class="info-group">
-        <span class="label">Availability Status</span>
-        <% if (profile.Availability) { %>
-          <span class="status-badge status-available">
-            <span class="status-dot"></span> Available
-          </span>
-        <% } else { %>
-          <span class="status-badge status-unavailable">
-            <span class="status-dot"></span> Unavailable
-          </span>
+    
+      <div class="card-header">
+        <h2>
+          <% if (profile && profile.name && typeof profile.name === 'object') { %>
+            <%= profile.name.username || profile.name.name || 'Unnamed User' %>
+          <% } else { %>
+            <%= profile ? profile.name : 'N/A' %>
+          <% } %>
+        </h2>
+        <% if (profile?.position) { %>
+          <span class="badge-position"><%= profile.position %></span>
         <% } %>
       </div>
+
+     
+      <div class="card-body">
+        <div class="info-group">
+          <span class="label">Specialty</span>
+          <span class="value"><%= profile?.specialty || 'N/A' %></span>
+        </div>
+
+        <div class="info-group">
+          <span class="label">Experience</span>
+          <span class="value"><%= profile?.experience || 'N/A' %></span>
+        </div>
+
+        <div class="info-group">
+          <span class="label">Availability Status</span>
+          <% if (profile?.Availability === true || profile?.Availability === 'true') { %>
+            <span class="status-badge status-available">
+              <span class="status-dot"></span> Available
+            </span>
+          <% } else { %>
+            <span class="status-badge status-unavailable">
+              <span class="status-dot"></span> Unavailable
+            </span>
+          <% } %>
+        </div>
+      </div>
+
+ <div class="btn-group">
+  <a href="/profile/<%= profile?._id %>/edit" class="btn btn-primary btn-block">
+    Edit Profile
+  </a>
+</div>
+
     </div>
+  </div>
 
-  
-
-</body>
-</html>
-  </body>
 </body>
 </html>
