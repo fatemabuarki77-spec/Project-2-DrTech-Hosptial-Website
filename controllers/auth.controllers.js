@@ -52,13 +52,13 @@ router.post("/sign-in", async (req, res) => {
     role: userInDatabase.role,
   };
 
-  // Save session explicitly before redirecting
   req.session.save(async (err) => {
     if (err) {
       console.error(err);
       return res.send("Session error, please try again.");
     }
 
+    //
     if (req.session.user.role === "doctor") {
       const userProfile = await Profile.findOne({ name: req.session.user._id });
       if (userProfile == null) {

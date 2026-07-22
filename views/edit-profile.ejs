@@ -40,11 +40,11 @@
             <label for="specialty" class="form-label">Specialty</label>
             <select name="specialty" id="specialty" class="form-control" required>
               <option value="-" <%= myProfile?.specialty === '-' ? 'selected' : '' %>>-- Select Specialty --</option>
-              <option value="general" <%= myProfile?.specialty === 'general' ? 'selected' : '' %>>General Medicine</option>
-              <option value="cardiology" <%= myProfile?.specialty === 'cardiology' ? 'selected' : '' %>>Cardiology</option>
-              <option value="pediatrics" <%= myProfile?.specialty === 'pediatrics' ? 'selected' : '' %>>Pediatrics</option>
-              <option value="neurology" <%= myProfile?.specialty === 'neurology' ? 'selected' : '' %>>Neurology</option>
-              <option value="psychiatry" <%= (myProfile?.specialty === 'psychiatry' || myProfile?.specialty === 'psychiatrists') ? 'selected' : '' %>>Psychiatry</option>
+              <option value="General Medicine" <%= myProfile?.specialty === 'General Medicine' ? 'selected' : '' %>>General Medicine</option>
+              <option value="Cardiology" <%= myProfile?.specialty === 'Cardiology' ? 'selected' : '' %>>Cardiology</option>
+              <option value="Pediatrics" <%= myProfile?.specialty === 'Pediatrics' ? 'selected' : '' %>>Pediatrics</option>
+              <option value="Neurology" <%= myProfile?.specialty === 'Neurology' ? 'selected' : '' %>>Neurology</option>
+              <option value="Psychiatry" <%= (myProfile?.specialty === 'Psychiatry' || myProfile?.specialty === 'Psychiatry') ? 'selected' : '' %>>Psychiatry</option>
             </select>
           </div>
 

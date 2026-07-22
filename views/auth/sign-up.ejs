@@ -11,20 +11,19 @@
       type="image/png"
     />
   </head>
-  <body class="sign.u">
-    <h1>Create your Hospital Account</h1>
-    <br /><br />
+  <body class="sign-u">
     <form action="/auth/sign-up" method="post">
+      <h1>Create your Hospital Account</h1>
+
       <div class="form-group">
         <label for="username">Username:</label>
         <input type="text" name="username" id="username" required />
       </div>
-      <br /><br />
+
       <div class="form-group">
         <label for="password">Password:</label>
         <input type="password" name="password" id="password" required />
       </div>
-      <br /><br />
 
       <div class="form-group">
         <label for="confirmPassword">Confirm Password:</label>
@@ -35,7 +34,6 @@
           required
         />
       </div>
-      <br /><br />
 
       <div class="form-group">
         <label for="role">I am signing up as a:</label>
@@ -45,7 +43,6 @@
           <option value="doctor">Doctor</option>
         </select>
       </div>
-      <br /><br />
 
       <div id="patientFields" class="hidden">
         <h3>Patient Information</h3>
@@ -54,7 +51,6 @@
           <input type="text" name="fullName" id="fullName" />
         </div>
       </div>
-      <br /><br />
 
       <div id="doctorFields" class="hidden">
         <h3>Medical Professional Information</h3>
@@ -62,7 +58,6 @@
           <label for="licenseNumber">Medical License Number:</label>
           <input type="text" name="licenseNumber" id="licenseNumber" />
         </div>
-        <br /><br />
 
         <div class="form-group">
           <label for="specialty">Specialty:</label>
@@ -72,12 +67,11 @@
             <option value="cardiology">Cardiology</option>
             <option value="pediatrics">Pediatrics</option>
             <option value="neurology">Neurology</option>
-            <option value="psychiatrists">psychiatrists</option>
+            <option value="psychiatrists">Psychiatry</option>
           </select>
         </div>
       </div>
 
-      <br /><br />
       <button type="submit">Sign up</button>
     </form>
   </body>
