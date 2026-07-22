@@ -13,7 +13,14 @@ router.get("/new", isSignedIn, async (req, res) => {
   try {
     const patientHistory = await Booking.find({
       patient: req.session.user._id,
-    }).populate("provider");
+    }).populate({
+      path: "provider",
+      populate: {
+        path: "name",
+      },
+    });
+
+    console.log(patientHistory);
 
     const apptType = ["in-person", "telehealth"];
 
@@ -215,6 +222,7 @@ router.post("/:id/notes", isSignedIn, async (req, res) => {
       customLabs: customLabs,
       xrayRequests: formattedXrays,
       customXrays: customXrays,
+      status: "Completed",
     });
 
     res.redirect("/appt/doc-appts");

@@ -4,6 +4,7 @@ const Booking = require("../models/bookings");
 const Profile = require("../models/profile");
 const PatientList = require("../models/patientslist");
 const Service = require("../models/services");
+const User = require("../models/User");
 const isSignedIn = require("../middleware/is-signed-in");
 
 router.get("/dashboard", async (req, res) => {
@@ -85,36 +86,33 @@ router.get("/all-doc", async (req, res) => {
   const allDocs = await Profile.find({}).populate("name");
   res.render("all-doctors.ejs", { allDocs });
 });
+
 router.get("/search", async (req, res) => {
   try {
+    const searchQuery = req.query.profile ? req.query.profile.trim() : "";
     let search = {};
 
-    if (req.query.profile) {
-      const userinfo = await User.findOne({
-        name: {
-          $regex: req.query.profile,
-          $options: "i",
-        },
-      });
+    console.log(searchQuery);
+    if (searchQuery) {
+      const matchingUsers = await User.find({
+        username: { $regex: searchQuery, $options: "i" },
+      }).select("_id");
 
-      if (!userinfo) {
-        return res.render("all-doctors.ejs", {
-          allDocs: [],
-          searchQuery: req.query.profile,
-        });
-      }
+      const userIds = matchingUsers.map((user) => user._id);
 
-      search = { name: userinfo._id };
+      search = { name: { $in: userIds } };
+      console.log(userIds);
     }
-
+    console.log(search);
     const allDocs = await Profile.find(search).populate("name");
 
+    console.log(allDocs);
     res.render("all-doctors.ejs", {
       allDocs,
-      searchQuery: req.query.profile || "",
+      searchQuery,
     });
   } catch (err) {
-    console.log(err);
+    console.error("Doctor search error:", err);
     res.redirect("/");
   }
 });

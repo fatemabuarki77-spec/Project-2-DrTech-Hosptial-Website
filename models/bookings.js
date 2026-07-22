@@ -10,7 +10,7 @@ const bookingschema = new mongoose.Schema(
 
     provider: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Profile",
     },
     date: {
       type: Date,

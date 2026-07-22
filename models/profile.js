@@ -26,7 +26,7 @@ const profileschema = new mongoose.Schema(
     Availability: {
       type: Boolean,
       required: true,
-      trim: true,
+      default: true,
     },
   },
   { timestamps: true },

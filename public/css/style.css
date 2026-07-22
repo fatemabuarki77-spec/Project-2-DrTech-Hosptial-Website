@@ -92,13 +92,14 @@ nav img {
 #welcome {
   text-align: center;
   color: #283cac;
-  font-size: 2.2rem;
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
   font-weight: 800;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  text-shadow: 0 3px 10px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
   padding: 2rem 1rem;
   max-width: 900px;
+  margin: 0; /* Ensures the element box stays on the left */
 }
 
 /* --- Content Container & Cards --- */
