@@ -8,7 +8,11 @@ A full-stack healthcare web application designed to streamline appointment booki
 
 ## Screenshots
 
-![alt text](<Screenshot 2026-07-22 at 3.46.54 PM.png>)
+![alt text](<Screenshot 2026-07-23 at 9.10.12 AM.png>)
+![alt text](<Screenshot 2026-07-23 at 9.10.29 AM.png>)
+![alt text](<Screenshot 2026-07-22 at 9.37.52 PM.png>)
+![alt text](<Screenshot 2026-07-23 at 9.20.01 AM.png>)
+![alt text](<Screenshot 2026-07-23 at 9.28.06 AM.png>)
 
 ## 🛠️ Technologies Used
 
@@ -59,11 +63,7 @@ The Deployed Website :https://med-tech-hosptial-website.onrender.com
 
 ## Database Design
 
-The MongoDB database consists of four core collections:
-
-- Users (User): Stores credentials, user role (Patient or Doctor), contact details, and basic profile info.
-- Doctors (Profile): References a User document; includes specialty, availability slots, and consultation options.
-- Appointments (Booking): Maps a Patient to a Doctor; contains date, time, appointment type (In-Person or Telehealth), status (Pending, Assigned, Completed, Cancelled), and consultation notes.
+![alt text](<Screenshot 2026-07-22 at 3.46.54 PM.png>)
 
 ## Routes
 
