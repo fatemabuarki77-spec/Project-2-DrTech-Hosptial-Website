@@ -3,7 +3,6 @@ const router = express.Router();
 const Booking = require("../models/bookings");
 const Profile = require("../models/profile");
 const PatientList = require("../models/patientslist");
-const Service = require("../models/services");
 const User = require("../models/User");
 const isSignedIn = require("../middleware/is-signed-in");
 
@@ -16,7 +15,6 @@ router.get("/dashboard", async (req, res) => {
       "username",
     );
 
-    // B. Retrieve all bookings registered with this doctor, populating patient info and service details
     const assignedBookings = await Booking.find({ provider: doctorId })
       .populate("patient", "username name")
       .populate("service")
@@ -27,7 +25,6 @@ router.get("/dashboard", async (req, res) => {
   }
 });
 
-// 2. UPDATE: Toggle Availability status inline
 router.put("/availability", isSignedIn, async (req, res) => {
   try {
     const doctorId = req.session.user._id;
@@ -47,30 +44,6 @@ router.put("/availability", isSignedIn, async (req, res) => {
   } catch (error) {
     console.error("Availability update error:", error);
     res.status(500).send("Error updating availability status.");
-  }
-});
-
-// 4. GET: Render Add Service Form
-router.get("/services/new", (req, res) => {
-  res.render("add-service.ejs", { user: req.session.user });
-});
-
-// 5. CREATE: Publish New Medical Service linked to the logged-in doctor
-router.post("/services", isSignedIn, async (req, res) => {
-  try {
-    const doctorId = req.session.user._id;
-    const { name, description } = req.body;
-
-    await Service.create({
-      Name: name,
-      Description: description,
-      provider: doctorId,
-    });
-
-    res.redirect("/doctor/dashboard");
-  } catch (error) {
-    console.error("Service creation error:", error);
-    res.status(500).send("Server Error: Unable to publish hospital service.");
   }
 });
 

@@ -1,7 +1,6 @@
-// imports
-const express = require("express"); //importing express package
-const app = express(); // creates a express application
-const dotenv = require("dotenv").config(); //this allows me to use my .env values in this file
+const express = require("express");
+const app = express();
+const dotenv = require("dotenv").config();
 const morgan = require("morgan");
 const session = require("express-session");
 const methodOverride = require("method-override");
@@ -9,21 +8,17 @@ const { MongoStore } = require("connect-mongo");
 const connectToDB = require("./db.js");
 const multer = require("multer");
 
-// middleware imports
 const isSignedIn = require("./middleware/is-signed-in.js");
 const passUserToView = require("./middleware/pass-user-to-view.js");
 
-// controller Imports
 const authController = require("./controllers/auth.controllers.js");
 const indexController = require("./controllers/index.controllers.js");
 const patientController = require(`./controllers/patient.controllers.js`);
 const apptController = require(`./controllers/appt.controllers.js`);
 const doctorController = require(`./controllers/doctor.controllers.js`);
-const serviceController = require(`./controllers/service.controllers.js`);
 const profileController = require(`./controllers/profile.controllers.js`);
 
-// Middleware
-app.use(express.static("public")); // my app will serve all static files from public folder
+app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
 app.use(morgan("dev"));
 app.use(methodOverride("_method"));
@@ -40,23 +35,20 @@ app.use(
 
     cookie: {
       httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24, // 1 day
+      maxAge: 1000 * 60 * 60 * 24,
     },
   }),
 );
 
 app.use(passUserToView);
 
-// Routes go here
 app.use("/auth", authController);
 app.use("/", indexController);
 app.use("/patient", patientController);
 app.use("/doctor", doctorController);
 app.use("/appt", apptController);
-app.use("/service", serviceController);
 app.use("/profile", profileController);
 
-// connect to database and listen on Port 3000
 async function startServer() {
   const PORT = process.env.PORT || 3000;
   await connectToDB();

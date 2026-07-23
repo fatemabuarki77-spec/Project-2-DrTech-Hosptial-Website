@@ -36,11 +36,6 @@ Ensure you have the following installed on your system:
 
 ## Installation
 
-**Clone the Repository**
-
-`bash`
-git clone [https://github.com/your-username/dr-tech.git](https://github.com/your-username/dr-tech.git)
-cd dr-tech
 The Deployed Website :https://med-tech-hosptial-website.onrender.com
 
 ## User Stories

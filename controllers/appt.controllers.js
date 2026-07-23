@@ -8,7 +8,6 @@ router.get("/", (req, res) => {
   console.log(req.session.user);
   res.render("homepage.ejs", { user: req.session.user });
 });
-// 1. READ: Get Patient Dashboard (All Appts)
 router.get("/new", isSignedIn, async (req, res) => {
   try {
     const patientHistory = await Booking.find({
@@ -47,7 +46,6 @@ router.get("/doc-appts", isSignedIn, async (req, res) => {
   console.log(docAppt);
   res.render("schedule.ejs", { docAppt });
 });
-// 2. CREATE: Submit a New Appointment
 
 // router.post("/", async (req, res) => {
 //   try {
@@ -102,8 +100,6 @@ router.put("/:id", isSignedIn, async (req, res) => {
   }
 });
 
-// 4. DELETE: Cancel/Remove an Appointment
-
 router.delete("/:id", isSignedIn, async (req, res) => {
   try {
     const appointment = await Booking.findById(req.params.id);
@@ -157,7 +153,6 @@ router.get("/dashboard", isSignedIn, async (req, res) => {
   }
 });
 
-// GET: View/Edit Doctor Clinic Notes for a Specific Appointment
 router.get("/:id/notes", isSignedIn, async (req, res) => {
   try {
     const appointment = await Booking.findById(req.params.id)
@@ -177,7 +172,6 @@ router.get("/:id/notes", isSignedIn, async (req, res) => {
     res.status(500).send("Error loading clinic notes");
   }
 });
-// GET: Render Clinic Notes & Orders Form
 router.get("/:id/notes", isSignedIn, async (req, res) => {
   try {
     const appointment = await Booking.findById(req.params.id)
@@ -198,7 +192,6 @@ router.get("/:id/notes", isSignedIn, async (req, res) => {
   }
 });
 
-// POST: Save Notes, Labs, and X-Ray Orders
 router.post("/:id/notes", isSignedIn, async (req, res) => {
   try {
     const { notes, labRequests, customLabs, xrayRequests, customXrays } =
